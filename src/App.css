@@ -1,0 +1,17 @@
+.productContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+
+}
+
+.productButton {
+
+    padding: 5px 20px;
+    cursor: pointer;
+    border: 1px solid grey
+}
+
+.productButton:hover {
+    background: rgb(240, 240, 240)
+}
