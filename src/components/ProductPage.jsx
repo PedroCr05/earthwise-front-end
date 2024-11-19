@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import productService from "../services/productService"; // Import productService
 import shoppingCartService from "../services/shoppingCartService";
 import "./ProductDescription.css";
 import "../App.css";
@@ -10,15 +10,21 @@ const ProductDescription = ({ addToCart }) => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [error, setError] = useState(null); // Add error state
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACK_END_SERVER_URL}/products/${productId}`);
-        setProduct(res.data);
+        const productData = await productService.getProductById(productId); // Use productService
+        if (productData) {
+          setProduct(productData);
+        } else {
+          setError("Product not found");
+        }
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
+      } catch (err) {
+        console.error("Error fetching product details:", err);
+        setError("An error occurred while fetching the product.");
         setLoading(false);
       }
     };
@@ -30,8 +36,8 @@ const ProductDescription = ({ addToCart }) => {
     return <div className="loading">Loading...</div>;
   }
 
-  if (!product) {
-    return <div className="error">Product not found</div>;
+  if (error) {
+    return <div className="error">{error}</div>; // Show error if any
   }
 
   const handleQuantityChange = (event) => {

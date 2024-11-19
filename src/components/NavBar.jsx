@@ -1,7 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../components/NavBar.css";
-import "../App.css"
-const NavBar = () => {
+import "../App.css";
+import authService from "../services/userService"; 
+
+const NavBar = ({ user, onLogout }) => {
+  const navigate = useNavigate(); 
+
+  // Handle the signout process
+  const handleSignOut = () => {
+    authService.signout();  
+    if (onLogout) {
+      onLogout();  
+    }
+    navigate("/");  
+  };
+
   return (
     <nav className="navbar">
       <div className="logo">
@@ -17,18 +30,22 @@ const NavBar = () => {
           <Link to="/products">Products</Link>
         </li>
         <li>
-          <Link to="/user">User</Link>
-        </li>
-        <li>
-          <Link to="/sign-in">Sign In</Link>
-        </li>
-        <li>
-          <Link to="/sign-out">Sign Out</Link>
+          <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>
           <Link to="/cart">Cart</Link>
-        </div>
-      </div>
+        </li>
+        <li>
+          {user ? (
+            <span onClick={handleSignOut}>Sign Out</span>  // Only show Sign Out if user is logged in
+          ) : (
+            <>
+              <Link to="/signin">Sign In</Link>
+              <Link to="/signup">Sign Up</Link>
+            </>
+          )}
+        </li>
+      </ul>
     </nav>
   );
 };
