@@ -1,4 +1,4 @@
-# Notes for myself:
+# Notes for CSS Styling:
 
 ### UI/UX
 

@@ -22,16 +22,16 @@ const ProductList = (props) => {
   console.log("product list", productList);
 
   return (
-    <div className="productContainer">
+    <main className="productContainer">
       {productList.map((product) => (
-        <div className="productButton">
-          <img src={product.productImage} />
-          <div>{product.productName}</div>
-          <div>{product.productDescription}</div>
-          <div>{product.productPrice}</div>
-        </div>
+        <article className="productButton">
+          <img className="image" src={product.productImage} />
+          <h3 className="nameOfProduct">{product.productName}</h3>
+          <p className="description">{product.productDescription}</p>
+          <p className="priceTag">${product.productPrice}</p>
+        </article>
       ))}
-    </div>
+    </main>
   );
 };
 

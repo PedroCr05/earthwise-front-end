@@ -1,17 +1,39 @@
+body {
+  display: "inline-block";
+}
+
+.app {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.navBar {
+  display: flex;
+}
+
+.navItem {
+  padding: 0 5px;
+  cursor: pointer;
+}
+
 .productContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-
-
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .productButton {
+  padding: 5px 20px;
+  cursor: pointer;
+  border: 2px solid grey;
+  border-radius: 32px;
+}
 
-    padding: 5px 20px;
-    cursor: pointer;
-    border: 1px solid grey
+.image {
+  max-width: max-content;
+  max-height: 1fr;
 }
 
 .productButton:hover {
-    background: rgb(240, 240, 240)
+  background: rgb(240, 240, 240);
 }

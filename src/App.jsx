@@ -6,10 +6,19 @@ import "./App.css";
 
 const App = () => {
   return (
-    <div>
-      <NavBar />
+    <div className="app">
+      <NavBar user={user} setUser={setUser} />
       <Routes>
-        <Route path="/" element={<ProductList />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<ProductList />} />
+        <Route
+          path="/sign-in"
+          element={<SigninForm user={user} setUser={setUser} />}
+        />
+        <Route
+          path="/sign-up"
+          element={<SignupForm user={user} setUser={setUser} />}
+        />
       </Routes>
     </div>
   );
