@@ -1,29 +1,141 @@
-.navbar {
-  background-color: #333;
-  padding: 20px;
-  color: white;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.navbar .logo img {
-  height: 40px;
-}
-
-.navbar .nav-links {
-  list-style: none;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column; /* Ensures navbar and content stack properly */
+  min-height: 100vh; /* Ensures full-page height */
 }
 
-.navbar .nav-links li {
-  margin: 0 10px;
+/* Navbar Styles */
+.navbar {
+  background-color: #222;
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%; /* Makes navbar span full width */
 }
 
-.navbar .nav-links a {
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* Center-aligns content within navbar */
+  margin: 0 auto;
+}
+
+/* Logo */
+.logo img {
+  height: 50px;
+  width: auto;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-links li {
+  margin: 0;
+}
+
+.nav-links a {
   color: white;
   text-decoration: none;
+  font-size: 16px;
   font-weight: bold;
+  transition: color 0.3s ease;
 }
 
-.navbar .nav-links a:hover {
+.nav-links a:hover {
   color: #f39c12;
+}
+
+/* Buttons for Sign In/Sign Out */
+.nav-button {
+  background-color: transparent;
+  border: 1px solid #f39c12;
+  color: #f39c12;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #f39c12;
+  color: white;
+}
+
+/* Page Layout */
+.container {
+  width: 100%; /* Use the full width of the page */
+  max-width: 1200px; /* Center content within the container */
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+}
+
+/* Grid Layout for Products */
+.productContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Buttons */
+.button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid grey;
+  background-color: #e67e22;
+  color: white;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #d35400;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .navbar-container {
+    flex-direction: column;
+  }
+
+  .container {
+    padding: 10px;
+  }
 }

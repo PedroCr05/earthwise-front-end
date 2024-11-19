@@ -1,21 +1,23 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Changed to useNavigate
 import { useEffect, useState } from "react";
-import productService from "../services/productService"; // Import productService
+import productService from "../services/productService";
 import shoppingCartService from "../services/shoppingCartService";
+import userService from "../services/userService";
 import "./ProductDescription.css";
-import "../App.css";
 
 const ProductDescription = ({ addToCart }) => {
   const { productId } = useParams();
+  const navigate = useNavigate(); // Using navigate for redirection
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const [error, setError] = useState(null); // Add error state
+  const [error, setError] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const productData = await productService.getProductById(productId); // Use productService
+        const productData = await productService.getProductById(productId);
         if (productData) {
           setProduct(productData);
         } else {
@@ -30,6 +32,11 @@ const ProductDescription = ({ addToCart }) => {
     };
 
     fetchProduct();
+
+    const currentUser = userService.getCurrentUser();
+    if (currentUser && currentUser.role === "admin") {
+      setIsAdmin(true);
+    }
   }, [productId]);
 
   if (loading) {
@@ -37,7 +44,7 @@ const ProductDescription = ({ addToCart }) => {
   }
 
   if (error) {
-    return <div className="error">{error}</div>; // Show error if any
+    return <div className="error">{error}</div>;
   }
 
   const handleQuantityChange = (event) => {
@@ -53,14 +60,24 @@ const ProductDescription = ({ addToCart }) => {
         productImage: product.productImage,
         quantity: quantity,
       };
-      console.log("Adding to cart:", item);
-      // Simulate adding to cart backend service
       await shoppingCartService.addItemToCart(item);
       addToCart(product, quantity);
-      console.log("Item added to cart");
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
+  };
+
+  const handleDeleteProduct = async (id) => {
+    try {
+      await productService.deleteProduct(id);
+      navigate("/products"); // Redirecting after product is deleted
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  const handleEditProduct = (id) => {
+    navigate(`/edit-product/${id}`); // Navigate to edit page
   };
 
   return (
@@ -74,7 +91,7 @@ const ProductDescription = ({ addToCart }) => {
           <h1>{product.productName}</h1>
           <p className="productDescription">{product.productDescription}</p>
           <div className="productPrice">${product.productPrice}</div>
-          
+
           <div className="quantityContainer">
             <label htmlFor="quantity">Qty: </label>
             <select id="quantity" value={quantity} onChange={handleQuantityChange}>
@@ -85,6 +102,13 @@ const ProductDescription = ({ addToCart }) => {
           </div>
 
           <button className="buyNowButton" onClick={handleAddToCart}>Add to Cart</button>
+
+          {isAdmin && (
+            <div className="admin-actions">
+              <button onClick={() => handleEditProduct(product._id)}>Edit</button>
+              <button onClick={() => handleDeleteProduct(product._id)}>Delete</button>
+            </div>
+          )}
         </div>
       </div>
     </div>
