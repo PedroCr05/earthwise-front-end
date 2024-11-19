@@ -8,8 +8,6 @@ import ShoppingCart from "./components/ShoppingCart";
 import "./App.css";
 import SignupForm from "./components/SignupForm";
 import SigninForm from "./components/SigninForm";
-import { Route, Router, Routes } from "react-router-dom";
-import ProductList from "./components/productList";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -25,11 +23,14 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/products" element={<ProductList />} />
-        <Route path="/product/:productId" element={<ProductDescription addToCart={addToCart} />} />
+        <Route
+          path="/product/:productId"
+          element={<ProductDescription addToCart={addToCart} />}
+        />
         <Route path="/cart" element={<ShoppingCart cart={cartItems} />} />
       </Routes>
     </>
   );
-};
+}; 
 
 export default App;
