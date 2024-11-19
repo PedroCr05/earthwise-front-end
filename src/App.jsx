@@ -21,15 +21,21 @@ const App = () => {
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
     if (storedToken) {
+<<<<<<< HEAD
+      setUser({ username: localStorage.getItem("username") });
+=======
       setUser({
         username: localStorage.getItem("username"),
         // You can also add other user details if necessary (e.g., role, email)
       });
+>>>>>>> main
     }
   }, []);
 
   const addToCart = (product, quantity) => {
-    const existingProductIndex = cartItems.findIndex(item => item._id === product._id);
+    const existingProductIndex = cartItems.findIndex(
+      (item) => item._id === product._id
+    );
     if (existingProductIndex !== -1) {
       const updatedCart = [...cartItems];
       updatedCart[existingProductIndex].quantity += quantity;
@@ -43,8 +49,13 @@ const App = () => {
   const handleUserLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
+<<<<<<< HEAD
+    setUser(null);
+    navigate("/");
+=======
     setUser(null);  // Reset user state
     navigate("/");   // Navigate to the landing page (or sign-in page)
+>>>>>>> main
   };
 
   return (
@@ -53,7 +64,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/products" element={<ProductList />} />
-        <Route path="/product/:productId" element={<ProductDescription addToCart={addToCart} />} />
+        <Route
+          path="/product/:productId"
+          element={<ProductDescription addToCart={addToCart} />}
+        />
         <Route path="/cart" element={<ShoppingCart user={user} />} />
         <Route path="/signup" element={<SignupForm setUser={setUser} />} />
         <Route path="/signin" element={<SigninForm />} />
