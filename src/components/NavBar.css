@@ -4,28 +4,37 @@
   color: white;
   position: sticky;
   top: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: larger;
+  gap: 1.5em;
 }
 
-.navbar .logo img {
-  height: 40px;
+.logo img {
+  height: 3.5em;
+  display: block;
 }
 
-.navbar .nav-links {
+.nav-links {
   list-style: none;
   display: flex;
-  justify-content: space-around;
 }
 
-.navbar .nav-links li {
+.nav-links li {
   margin: 0 10px;
 }
 
-.navbar .nav-links a {
+.nav-links a {
   color: white;
   text-decoration: none;
   font-weight: bold;
 }
 
-.navbar .nav-links a:hover {
+.auth-links {
+  margin-left: auto;
+}
+
+.nav-links a:hover {
   color: #f39c12;
 }
