@@ -1,36 +1,66 @@
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import ProductList from "./components/ProductList";
 import ProductDescription from "./components/ProductPage";
 import ShoppingCart from "./components/ShoppingCart";
-// import shipping from './components/shipping'
-import "./App.css";
 import SignupForm from "./components/SignupForm";
-import SigninForm from "./components/SigninForm";
+
+import LandingPage from "./components/LandingPage";
+import Dashboard from "./components/Dashboard";
+import "./App.css";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  // Fetch user data from local storage on initial load to maintain session
+  useEffect(() => {
+    const storedToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      setUser({ username: localStorage.getItem("username") });
+    }
+  }, []);
 
   const addToCart = (product, quantity) => {
-    const updatedCart = [...cartItems, { ...product, quantity }];
-    console.log("Updated Cart:", updatedCart);
-    setCartItems(updatedCart);
+    const existingProductIndex = cartItems.findIndex(
+      (item) => item._id === product._id
+    );
+    if (existingProductIndex !== -1) {
+      const updatedCart = [...cartItems];
+      updatedCart[existingProductIndex].quantity += quantity;
+      setCartItems(updatedCart);
+    } else {
+      const updatedCart = [...cartItems, { ...product, quantity }];
+      setCartItems(updatedCart);
+    }
+  };
+
+  const handleUserLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("username");
+    setUser(null);
+    navigate("/");
   };
 
   return (
     <>
-      <NavBar />
+      <NavBar user={user} onLogout={handleUserLogout} />
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/products" element={<ProductList />} />
         <Route
           path="/product/:productId"
           element={<ProductDescription addToCart={addToCart} />}
         />
-        <Route path="/cart" element={<ShoppingCart cart={cartItems} />} />
+        <Route path="/cart" element={<ShoppingCart user={user} />} />
+        <Route path="/signup" element={<SignupForm setUser={setUser} />} />
+        <Route path="/signin" element={<SigninForm />} />
+        <Route path="/dashboard" element={<Dashboard user={user} />} />
       </Routes>
     </>
   );
-}; 
+};
 
 export default App;
