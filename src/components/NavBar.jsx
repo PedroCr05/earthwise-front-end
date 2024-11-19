@@ -40,7 +40,7 @@ const NavBar = ({ user, onLogout }) => {
             <span onClick={handleSignOut}>Sign Out</span> // Only show Sign Out if user is logged in
           ) : (
             <>
-              <Link to="/signin">Sign In</Link>
+              <Link to="/signin">Sign In</Link> |{" "}
               <Link to="/signup">Sign Up</Link>
             </>
           )}
