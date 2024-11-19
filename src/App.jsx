@@ -8,7 +8,7 @@ import SignupForm from "./components/SignupForm";
 import SigninForm from "./components/SigninForm";
 import LandingPage from "./components/LandingPage";
 import Dashboard from "./components/Dashboard";
-import NewProduct from "./components/NewProduct";  // Import NewProduct
+import NewProduct from "./components/NewProduct"; // Import NewProduct
 import "./App.css";
 import EditProduct from "./components/EditProduct";
 
@@ -21,14 +21,10 @@ const App = () => {
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
     if (storedToken) {
-<<<<<<< HEAD
-      setUser({ username: localStorage.getItem("username") });
-=======
       setUser({
         username: localStorage.getItem("username"),
         // You can also add other user details if necessary (e.g., role, email)
       });
->>>>>>> main
     }
   }, []);
 
@@ -49,13 +45,8 @@ const App = () => {
   const handleUserLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
-<<<<<<< HEAD
-    setUser(null);
-    navigate("/");
-=======
-    setUser(null);  // Reset user state
-    navigate("/");   // Navigate to the landing page (or sign-in page)
->>>>>>> main
+    setUser(null); // Reset user state
+    navigate("/"); // Navigate to the landing page (or sign-in page)
   };
 
   return (
@@ -72,7 +63,8 @@ const App = () => {
         <Route path="/signup" element={<SignupForm setUser={setUser} />} />
         <Route path="/signin" element={<SigninForm />} />
         <Route path="/dashboard" element={<Dashboard user={user} />} />
-        <Route path="/new-product" element={<NewProduct />} />  {/* Route for NewProduct */}
+        <Route path="/new-product" element={<NewProduct />} />{" "}
+        {/* Route for NewProduct */}
         <Route path="/edit-product/:id" element={<EditProduct />} />
       </Routes>
     </>
