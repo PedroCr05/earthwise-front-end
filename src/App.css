@@ -3,25 +3,64 @@ body {
 }
 
 .productContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+  }
 }
 
-.productButton {
-  padding: 5px 20px;
-  cursor: pointer;
-  border: 1px solid grey;
-}
-
-.productButton:hover {
-  background: rgb(240, 240, 240);
-}
-
-.navBar {
+/* Page Layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
   display: flex;
 }
 
-.navItem {
-  padding: 0 5px;
+/* Flexbox for aligning content */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Grid Layout for Products */
+.productContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* Buttons */
+.button {
+  padding: 10px 20px;
   cursor: pointer;
+  border: 1px solid grey;
+  background-color: #e67e22;
+  color: white;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #d35400;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
 }
