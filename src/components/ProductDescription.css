@@ -1,39 +1,45 @@
+/* Container for the entire product description section */
 .productDescriptionContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 2rem;
   background-color: #f7f7f7;
+  min-height: 100vh; /* Ensure full-height if needed */
 }
 
+/* Styling for the product details wrapper */
 .productDetails {
   display: flex;
   max-width: 1200px;
   background-color: white;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  overflow: hidden;
   padding: 2rem;
   width: 100%;
+  gap: 2rem; /* Adds space between image and text */
 }
 
+/* Image container settings */
 .productImage {
   flex: 1;
   max-width: 500px;
-  margin-right: 2rem;
 }
 
 .productImage img {
   width: 100%;
   height: auto;
   border-radius: 8px;
+  object-fit: cover;
 }
 
+/* Info section settings */
 .productInfo {
   flex: 2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 }
 
 .productInfo h1 {
@@ -57,6 +63,7 @@
   margin-bottom: 2rem;
 }
 
+/* Button styles */
 .buyNowButton {
   background-color: #e67e22;
   color: white;
@@ -73,6 +80,7 @@
   background-color: #d35400;
 }
 
+/* Loading and error messages */
 .loading,
 .error {
   text-align: center;
@@ -81,6 +89,7 @@
   margin-top: 2rem;
 }
 
+/* Quantity dropdown styling */
 .quantityContainer {
   margin-bottom: 20px;
 }
@@ -96,3 +105,23 @@
   border-radius: 4px;
 }
 
+/* Admin action buttons */
+.admin-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-actions button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-actions button:hover {
+  background-color: #c0392b;
+}

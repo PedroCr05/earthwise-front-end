@@ -1,58 +1,90 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
 .shoppingCartContainer {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .emptyCart {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #555;
-  }
-  
-  .cartItems {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-  }
-  
-  .cartItem {
-    display: flex;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .cartItemImage {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    margin-right: 20px;
-  }
-  
-  .cartItemDetails {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .cartItemName {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .cartItemQuantity,
-  .cartItemPrice {
-    font-size: 1rem;
-    color: #555;
-  }
-  
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.loginPrompt {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #d9534f; /* Warning red */
+  background-color: #fdecea;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.emptyCart {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #555;
+  margin: 20px 0;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #d9534f;
+  margin-top: 20px;
+}
+
+.cartItems {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1rem;
+}
+
+.cartItemName {
+  flex: 2;
+  font-weight: bold;
+  color: #333;
+}
+
+.cartItemQuantity,
+.cartItemPrice {
+  flex: 1;
+  text-align: right;
+  color: #555;
+}
+
+.cartItem:last-child {
+  border-bottom: none;
+}

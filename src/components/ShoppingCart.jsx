@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import shoppingCartService from "../services/shoppingCartService";
 import "./ShoppingCart.css";
-import "../App.css";
 
 const ShoppingCart = ({ user }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -36,7 +35,12 @@ const ShoppingCart = ({ user }) => {
   }, [user]);
 
   if (!user) {
-    return <div className="loginPrompt">Please log in to view your shopping cart.</div>;
+    return (
+      <div className="shoppingCartContainer">
+        <h1>Shopping Cart</h1>
+        <div className="loginPrompt">⚠️ Please log in to view your shopping cart.</div>
+      </div>
+    );
   }
 
   if (loading) {
@@ -61,20 +65,17 @@ const ShoppingCart = ({ user }) => {
     <div className="shoppingCartContainer">
       <h1>Shopping Cart</h1>
       {cartItems.length === 0 ? (
-        <div className="emptyCart">Your cart is empty</div>
+        <div className="emptyCart">Your cart is empty.</div>
       ) : (
-        <div className="cartItems">
+        <ul className="cartItems">
           {cartItems.map((item, idx) => (
-            <div key={idx} className="cartItem">
-              <img src={item.productImage} alt={item.productName} className="cartItemImage" />
-              <div className="cartItemDetails">
-                <div className="cartItemName">{item.productName}</div>
-                <div className="cartItemQuantity">Quantity: {item.quantity}</div>
-                <div className="cartItemPrice">Price: ${item.productPrice}</div>
-              </div>
-            </div>
+            <li key={idx} className="cartItem">
+              <span className="cartItemName">{item.productName}</span>
+              <span className="cartItemQuantity">Quantity: {item.quantity}</span>
+              <span className="cartItemPrice">Price: ${item.productPrice}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );
