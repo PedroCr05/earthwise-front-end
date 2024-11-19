@@ -1,7 +1,7 @@
 import { useState } from "react";
 import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
-import "./SignupForm.css";  
+import "./SignupForm.css";
 
 const SignupForm = () => {
   const [userCredentials, setUserCredentials] = useState({
@@ -12,9 +12,8 @@ const SignupForm = () => {
     phoneNumber: "",
     companyName: "",
     street: "",
-    state: "", 
+    state: "",
     zip: "",
-    role: "customer",
   });
 
   const navigate = useNavigate();
@@ -37,14 +36,13 @@ const SignupForm = () => {
           zip: parseInt(userCredentials.zip),
         },
       ],
+      role: "customer", // Set role to 'customer' explicitly
     };
     try {
       let response = await userService.signup(obj);
       if (response.token) {
         localStorage.setItem("authToken", response.token);
-
         localStorage.setItem("username", userCredentials.username);
-
         navigate("/dashboard");
       }
     } catch (err) {
@@ -52,14 +50,17 @@ const SignupForm = () => {
     }
   };
 
-  // List of U.S. states
   const statesList = [
-    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
-    "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
-    "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", 
-    "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", 
-    "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", 
-    "West Virginia", "Wisconsin", "Wyoming"
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
+    "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho",
+    "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana",
+    "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",
+    "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada",
+    "New Hampshire", "New Jersey", "New Mexico", "New York",
+    "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon",
+    "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
+    "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington",
+    "West Virginia", "Wisconsin", "Wyoming",
   ];
 
   return (
@@ -178,21 +179,6 @@ const SignupForm = () => {
           />
         </div>
 
-        {/* Role selection */}
-        <div className="form-group">
-          <label htmlFor="role">Role</label>
-          <select
-            name="role"
-            id="role"
-            value={userCredentials.role}
-            onChange={handleFormChange}
-          >
-            <option value="customer">Customer</option>
-            <option value="admin">Admin</option>
-            <option value="manager">Manager</option>
-          </select>
-        </div>
-
         <div className="form-actions">
           <button type="submit" className="signup-button">
             Sign Up
@@ -204,3 +190,20 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
+
+
+
+        {/* Role selection */}
+        {/* <div className="form-group">
+          <label htmlFor="role">Role</label>
+          <select
+            name="role"
+            id="role"
+            value={userCredentials.role}
+            onChange={handleFormChange}
+          >
+            <option value="customer">Customer</option>
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+          </select>
+        </div> */}
