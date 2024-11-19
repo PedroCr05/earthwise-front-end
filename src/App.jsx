@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import ProductList from "./components/productList";
+import ProductList from "./components/ProductList";
 import "./App.css";
 
 const App = () => {
   return (
-    <>
+    <div>
       <NavBar />
-      <h1>Hello</h1>
-      <ProductList />
-    </>
+      <Routes>
+        <Route path="/" element={<ProductList />} />
+      </Routes>
+    </div>
   );
 };
 
