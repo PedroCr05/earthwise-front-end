@@ -2,10 +2,19 @@ body {
   display: "inline-block";
 }
 
-.app {
+.productContainer {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.productButton {
+  padding: 5px 20px;
+  cursor: pointer;
+  border: 1px solid grey;
+}
+
+.productButton:hover {
+  background: rgb(240, 240, 240);
 }
 
 .navBar {
@@ -15,25 +24,4 @@ body {
 .navItem {
   padding: 0 5px;
   cursor: pointer;
-}
-
-.productContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.productButton {
-  padding: 5px 20px;
-  cursor: pointer;
-  border: 2px solid grey;
-  border-radius: 32px;
-}
-
-.image {
-  max-width: max-content;
-  max-height: 1fr;
-}
-
-.productButton:hover {
-  background: rgb(240, 240, 240);
 }
