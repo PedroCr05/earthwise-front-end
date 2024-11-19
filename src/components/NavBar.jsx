@@ -22,21 +22,18 @@ const NavBar = ({ user, onLogout }) => {
           <img src="favicon_io/apple-touch-icon.png" alt="Site Logo" />
         </Link>
       </div>
-      <ul className="nav-links page-link">
+      <ul className="nav-links">
         <li>
           <Link to="/">Home</Link>
         </li>
         <li>
           <Link to="/products">Products</Link>
         </li>
+      </ul>
+      <ul className="nav-links users-links">
         <li>
           <Link to="/dashboard">Dashboard</Link>
         </li>
-        <li>
-          <Link to="/cart">Cart</Link>
-        </li>
-      </ul>
-      <ul className="nav-links auth-links">
         <li>
           {user ? (
             <span onClick={handleSignOut}>Sign Out</span>
@@ -46,6 +43,9 @@ const NavBar = ({ user, onLogout }) => {
               <Link to="/signup">Sign Up</Link>
             </>
           )}
+        </li>
+        <li>
+          <Link to="/cart">Cart</Link>
         </li>
       </ul>
     </nav>
