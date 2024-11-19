@@ -33,6 +33,8 @@
 
 .users-links {
   margin-left: auto;
+  overflow-block: 1em;
+  display: flex;
 }
 
 .nav-links a:hover {

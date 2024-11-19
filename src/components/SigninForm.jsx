@@ -94,7 +94,7 @@ const SigninForm = ({ user, setUser }) => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/sign-up")}
+              onClick={() => navigate("/signup")}
               className="signup-button"
             >
               Sign Up
