@@ -1,20 +1,34 @@
 import { useState } from "react";
 import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
+import "./SignupForm.css";  
 
-const SignupForm = ({ user, setUser }) => {
-  const [userCredentials, setUserCredentials] = useState({});
+const SignupForm = () => {
+  const [userCredentials, setUserCredentials] = useState({
+    username: "",
+    password: "",
+    name: "",
+    email: "",
+    phoneNumber: "",
+    companyName: "",
+    street: "",
+    state: "", 
+    zip: "",
+    role: "customer",
+  });
 
   const navigate = useNavigate();
+
   const handleFormChange = (evt) => {
     setUserCredentials({
       ...userCredentials,
-      [`${evt.target.name}`]: evt.target.value,
+      [evt.target.name]: evt.target.value,
     });
   };
 
-  const submitSignup = async () => {
-    let obj = {
+  const submitSignup = async (evt) => {
+    evt.preventDefault();
+    const obj = {
       ...userCredentials,
       address: [
         {
@@ -27,101 +41,164 @@ const SignupForm = ({ user, setUser }) => {
     try {
       let response = await userService.signup(obj);
       if (response.token) {
-        // Store the token in local storage
         localStorage.setItem("authToken", response.token);
-      }
-      setUser(response.user);
 
-      navigate("/");
-    } catch (err) {}
+        localStorage.setItem("username", userCredentials.username);
+
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Signup failed:", err);
+    }
   };
 
+  // List of U.S. states
+  const statesList = [
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+    "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
+    "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", 
+    "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", 
+    "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", 
+    "West Virginia", "Wisconsin", "Wyoming"
+  ];
+
   return (
-    <div>
-      <h3>Sign Up</h3>
-      {!user?._id ? (
-        <>
-          {" "}
-          <div>
-            <div>Username</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.username}
-              name="username"
-            />
-          </div>
-          <div>
-            <div>Password</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.password}
-              name="password"
-            />
-          </div>
-          <div>
-            <div>Name</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.name}
-              name="name"
-            />
-          </div>
-          <div>
-            <div>Email</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.email}
-              name="email"
-            />
-          </div>
-          <div>
-            <div>Phone Number</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.phoneNumber}
-              name="phoneNumber"
-            />
-          </div>
-          <div>
-            <div>Company Name</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.companyName}
-              name="companyName"
-            />
-          </div>
-          <div>
-            <div>Street</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.street}
-              name="street"
-            />
-            <div>State</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.state}
-              name="state"
-            />
-            <div>Zip</div>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.zip}
-              name="zip"
-              type="number"
-            />
-          </div>
-          <button
-            onClick={() => {
-              submitSignup();
-            }}
+    <div className="signup-form-container">
+      <h3 className="signup-form-title">Sign Up</h3>
+      <form className="signup-form" onSubmit={submitSignup}>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.username}
+            name="username"
+            id="username"
+            type="text"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.password}
+            name="password"
+            id="password"
+            type="password"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.name}
+            name="name"
+            id="name"
+            type="text"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.email}
+            name="email"
+            id="email"
+            type="email"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="phoneNumber">Phone Number</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.phoneNumber}
+            name="phoneNumber"
+            id="phoneNumber"
+            type="tel"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="companyName">Company Name</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.companyName}
+            name="companyName"
+            id="companyName"
+            type="text"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="street">Street</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.street}
+            name="street"
+            id="street"
+            type="text"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="state">State</label>
+          <select
+            name="state"
+            id="state"
+            value={userCredentials.state}
+            onChange={handleFormChange}
+            required
           >
-            Signup
+            <option value="">Select a state</option>
+            {statesList.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="zip">Zip</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.zip}
+            name="zip"
+            id="zip"
+            type="number"
+            required
+          />
+        </div>
+
+        {/* Role selection */}
+        <div className="form-group">
+          <label htmlFor="role">Role</label>
+          <select
+            name="role"
+            id="role"
+            value={userCredentials.role}
+            onChange={handleFormChange}
+          >
+            <option value="customer">Customer</option>
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+          </select>
+        </div>
+
+        <div className="form-actions">
+          <button type="submit" className="signup-button">
+            Sign Up
           </button>
-        </>
-      ) : (
-        ""
-      )}
+        </div>
+      </form>
     </div>
   );
 };
