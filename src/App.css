@@ -1,3 +1,9 @@
+body {
+
+    display: 'inline-block'
+
+}
+
 .productContainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -14,4 +20,13 @@
 
 .productButton:hover {
     background: rgb(240, 240, 240)
+}
+
+.navBar {
+    display: flex
+}
+
+.navItem {
+    padding: 0 5px;
+    cursor: pointer
 }

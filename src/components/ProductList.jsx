@@ -23,8 +23,8 @@ const ProductList = (props) => {
 
   return (
     <div className="productContainer">
-      {productList.map((product) => (
-        <div className="productButton">
+      {productList.map((product, idx) => (
+        <div key={idx} className="productButton">
           <img src={product.productImage} />
           <div>{product.productName}</div>
           <div>{product.productDescription}</div>
