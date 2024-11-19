@@ -1,14 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import ProductList from "./components/productList";
+import ProductList from "./components/ProductList";
+import ProductDescription from "./components/ProductPage";
+import ShoppingCart from "./components/ShoppingCart";
+// import shipping from './components/shipping'
 import "./App.css";
 
 const App = () => {
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = (product, quantity) => {
+    const updatedCart = [...cartItems, { ...product, quantity }];
+    console.log("Updated Cart:", updatedCart);
+    setCartItems(updatedCart);
+  };
+
   return (
     <>
       <NavBar />
-      <h1>Hello</h1>
-      <ProductList />
+      <Routes>
+        <Route path="/products" element={<ProductList />} />
+        <Route path="/product/:productId" element={<ProductDescription addToCart={addToCart} />} />
+        <Route path="/cart" element={<ShoppingCart cart={cartItems} />} />
+      </Routes>
     </>
   );
 };
