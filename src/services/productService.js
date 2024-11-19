@@ -6,8 +6,17 @@ const getProducts = async () => {
     const res = await axios.get(BASE_URL);
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.log("Error fetching products:", error);
   }
 };
 
-export default { getProducts };
+const getProductById = async (id) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/${id}`);
+    return res.data;
+  } catch (error) {
+    console.log("Error fetching product details:", error);
+  }
+};
+
+export default { getProducts, getProductById };
