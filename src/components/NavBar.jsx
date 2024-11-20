@@ -25,18 +25,30 @@ const NavBar = ({ user, onLogout }) => {
 
         {/* Navigation Links */}
         <ul className="nav-links">
-          <li>
-            <Link to="/">Home</Link>
+          <li className="link-to-pages">
+            <Link to="/" className="center-me">
+              Home
+            </Link>
           </li>
-          <li>
-            <Link to="/products">Products</Link>
+          <li className="link-to-pages">
+            <Link to="/products" className="center-me">
+              Products
+            </Link>
           </li>
-          <ul></ul>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
+          {/* 
+          Not sure if this unordered list is meant to be here? 
+          Going to comment it out for now. 
+          */}
+          {/* <ul></ul> */}
+          <li className="link-to-pages">
+            <Link to="/dashboard" className="center-me">
+              Dashboard
+            </Link>
           </li>
-          <li>
-            <Link to="/cart">Cart</Link>
+          <li className="link-to-pages">
+            <Link to="/cart" className="center-me">
+              Cart
+            </Link>
           </li>
           <li>
             {user ? (
