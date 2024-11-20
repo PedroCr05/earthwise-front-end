@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import productService from "../services/productService";
 import shoppingCartService from "../services/shoppingCartService";
 import userService from "../services/userService";
+import ReviewList from "./ReviewList";
 import "./ProductDescription.css";
 
 const ProductDescription = ({ addToCart }) => {
@@ -21,6 +22,7 @@ const ProductDescription = ({ addToCart }) => {
         const productData = await productService.getProductById(productId);
         if (productData) {
           setProduct(productData);
+          setReviews(productData.reviews);
         } else {
           setError("Product not found");
         }
@@ -31,23 +33,6 @@ const ProductDescription = ({ addToCart }) => {
         setLoading(false);
       }
     };
-
-    //Fetch Reviews for Products
-    // const fetchReviews = async (productName) => {
-    //   try {
-    //     const allReviews = await reviewService.getReviews();
-    //     const filteredReviews = allReviews.filter(
-    //       (review) => review.productName === productName
-    //     );
-    //     setReviews(filteredReviews);
-    //     const userIds = filteredReviews.flatMap((review) => review.author);
-    //     const userData = await userService.getUsersByIds(userIds);
-    //     setUsers(userData);
-    //   } catch (err) {
-    //     console.error("Error fetching reviews:", err);
-    //     setError("An error occurred while fetching the reviews.");
-    //   }
-    // };
 
     fetchProduct();
 
@@ -140,32 +125,9 @@ const ProductDescription = ({ addToCart }) => {
               </button>
             </div>
           )}
+          <ReviewList reviews={reviews} productId={productId} />
         </div>
       </div>
-      <ReviewList reviews={reviews} productId={productId} />
-      {/* <div className="reviewsSection">
-        <h2>Customer Reviews</h2>
-        {product.reviews.length === 0 ? (
-          <p>No reviews available for this product.</p>
-        ) : (
-          <ul className="reviewsList">
-            {product.reviews.map((review) => {
-              const reviewer = users.find(
-                (user) => user._id === product.review.author[0]
-              );
-              return (
-                <li key={product.review.id}>
-                  <h3>{reviewer ? reviewer.name : "Anonymous"}</h3>
-                  <p>{product.review.text}</p>
-                  <small>
-                    Recommendation: {review.recommend ? "Yes" : "No"}
-                  </small>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div> */}
     </div>
   );
 };
