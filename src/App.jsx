@@ -45,7 +45,6 @@ const App = () => {
   const handleUserLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
-
     setUser(null); // Reset user state
     navigate("/"); // Navigate to the landing page (or sign-in page)
   };
