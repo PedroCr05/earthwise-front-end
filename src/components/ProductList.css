@@ -1,14 +1,14 @@
 /* Container for the product grid */
 .product-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 30px; 
-  max-width: 1200px; 
-  margin: 20px auto; 
-  padding: 20px; 
-  background-color: #f9f9f9; 
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
   border: 1px solid #ddd;
-  border-radius: 8px; 
+  border-radius: 8px;
 }
 
 /* Individual product cards */
@@ -40,6 +40,7 @@
 
 .product-name {
   font-size: 1.2rem;
+  font-weight: bold;
   color: #222;
   margin: 10px 0;
 }
@@ -69,14 +70,14 @@
 /* Button container styles */
 .button-container {
   display: flex;
-  gap: 10px; 
-  justify-content: flex-start; 
-  flex-wrap: wrap; 
+  gap: 10px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 /* View Details button style */
 .view-details-button {
-  background-color: #3498db; 
+  background-color: #3498db;
   color: white;
   padding: 6px 10px;
   margin: 5px 1px;
@@ -88,7 +89,7 @@
 }
 
 .view-details-button:hover {
-  background-color: #2980b9; 
+  background-color: #2980b9;
 }
 
 /* Admin action buttons (Edit, Delete) */
@@ -104,5 +105,39 @@
 }
 
 .admin-actions button:hover {
-  background-color: #c0392b; 
+  background-color: #c0392b;
+}
+
+@media (max-width: 400px) {
+  .product-container {
+    display: grid;
+    text-align: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .product-image {
+    width: 80%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .product-name {
+    font-size: 0.785rem;
+    font-weight: bold;
+  }
+
+  .product-description {
+    font-size: 1rem;
+  }
+
+  .product-price {
+    font-size: 1.5rem;
+  }
+
+  .button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
 }

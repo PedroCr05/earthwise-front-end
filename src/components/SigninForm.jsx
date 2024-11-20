@@ -1,9 +1,10 @@
 import { useState } from "react";
 import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
-import "./SigninForm.css";
 
-const SigninForm = ({ setUser }) => {
+import "./SignupForm";
+const SigninForm = ({ user, setUser }) => {
+  const navigate = useNavigate();
   const [userCredentials, setUserCredentials] = useState({
     username: "",
     password: "",
@@ -24,25 +25,42 @@ const SigninForm = ({ setUser }) => {
     setIsLoading(true); 
     setErrorMessage(""); 
 
-    const obj = {
-      username: userCredentials.username,
-      password: userCredentials.password,
-    };
 
-    try {
-      let response = await userService.signin(obj);
+      const response = await userService.signin(userCredentials);
       if (response.token) {
         localStorage.setItem("authToken", response.token);
-        localStorage.setItem("user", JSON.stringify(response.user)); 
-        setUser(response.user); 
+        localStorage.setItem("username", response.username);
+        localStorage.setItem("userId", response.user._id);
+
+        // Update the user state
+        if (typeof setUser === "function") {
+          setUser({ username: response.username, _id: response.user._id });
+        } else {
+          console.error("setUser is not a function");
+        }
+
+        // Redirect to the dashboard
+
         navigate("/dashboard");
       }
     } catch (err) {
       console.error("Signin failed:", err);
-      setErrorMessage("Invalid username or password. Please try again."); 
-    } finally {
-      setIsLoading(false); 
+
+      setErrorMessage(
+        err.response?.data?.message ||
+          "Signin failed. Please check your credentials."
+      );
     }
+  };
+
+  const handleSignOut = () => {
+    userService.signout();
+    if (typeof setUser === "function") {
+      setUser(null);
+    } else {
+      console.error("setUser is not a function");
+    }
+    navigate("/");
   };
 
   return (
@@ -75,9 +93,25 @@ const SigninForm = ({ setUser }) => {
 
         {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
 
-        <div className="form-actions">
-          <button type="submit" className="signin-button" disabled={isLoading}>
-            {isLoading ? "Signing In..." : "Sign In"}
+
+          <div className="form-actions">
+            <button type="submit" className="signin-button">
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/signup")}
+              className="signup-button"
+            >
+              Sign Up
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="welcome-message">
+          Welcome, {user.username}!{" "}
+          <button onClick={handleSignOut} className="signout-button">
+            Sign Out
           </button>
         </div>
       </form>

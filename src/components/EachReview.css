@@ -1,37 +1,39 @@
 .each-review-comment {
-    border: 1px lightgray solid;
-    padding: 1rem 1rem 1rem 1rem;
-    border-radius: 1rem;
-    background: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .review-comment {
-    margin: 0.5rem 0.75rem 0.5rem 0.75rem;
-  }
-  
-  .each-review-comment:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.15);
-  }
-  
-  .each-review-comment div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-  }
-  
-  .commenter-username {
-    margin-top: auto;
-    text-align: right;
-    color: rgb(100, 100, 100);
-    font-weight: bold;
-    text-decoration: underline 0.2rem;
-    text-underline-offset: 0.3rem;
-  }
-  
-  .commenter-username:hover {
-    text-decoration: underline 0.2rem rgb(219, 167, 23);
-  }
+
+  border: 1px lightgray solid;
+  padding: 1rem 1rem 1rem 1rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-comment {
+  margin: 0.5rem 0.75rem 0.5rem 0.75rem;
+}
+
+.each-review-comment:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.each-review-comment div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.commenter-username {
+  margin-top: auto;
+  text-align: right;
+  color: rgb(100, 100, 100);
+  font-weight: bold;
+  text-decoration: underline 0.2rem;
+  text-underline-offset: 0.3rem;
+}
+
+.commenter-username:hover {
+  text-decoration: underline 0.2rem rgb(219, 167, 23);
+}
+

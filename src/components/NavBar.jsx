@@ -26,40 +26,40 @@ const NavBar = ({ user, setUser }) => {
 
         {/* Navigation Links */}
         <ul className="nav-links">
-          <li>
-            <Link to="/">Home</Link>
+          <li className="link-to-pages">
+            <Link to="/" className="center-me">
+              Home
+            </Link>
+          </li>
+          <li className="link-to-pages">
+            <Link to="/products" className="center-me">
+              Products
+            </Link>
+          </li>
+
+          {/* 
+          Not sure if this unordered list is meant to be here? 
+          Going to comment it out for now. 
+          */}
+          {/* <ul></ul> */}
+          <li className="link-to-pages">
+            <Link to="/dashboard" className="center-me">
+              Dashboard
+            </Link>
+          </li>
+          <li className="link-to-pages">
+            <Link to="/cart" className="center-me">
+              Cart
+            </Link>
           </li>
           <li>
-            <Link to="/products">Products</Link>
-          </li>
-          {user ? (
-            <>
-              <li>
-                <Link to="/dashboard">Dashboard</Link>
-              </li>
-              <li>
-                <Link to="/cart">Cart</Link>
-              </li>
-              <li className="user-info">
-                {/* Avatar and Username */}
-                <div className="avatar">
-                  <img 
-                    src={user.avatar || "/user.png"} 
-                    alt="User Avatar" 
-                    className="avatar-image"
-                  />
-                </div>
-                <span className="username">{user.username}</span>
-              </li>
-              <li>
-                <button className="nav-button" onClick={handleSignOut}>
-                  Sign Out
-                </button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
+            {user ? (
+              <button className="nav-button" onClick={handleSignOut}>
+                Sign Out
+              </button>
+            ) : (
+              <>
+
                 <Link to="/signin" className="nav-button">
                   Sign In
                 </Link>

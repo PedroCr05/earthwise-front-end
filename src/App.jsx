@@ -15,6 +15,8 @@ import "./App.css";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
+  // Maybe add a site darkmode and lightmode?
+  // const [darkMode, setDarkMode] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 

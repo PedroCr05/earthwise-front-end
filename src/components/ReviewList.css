@@ -1,18 +1,19 @@
 .customer-review-listing {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    list-style: none;
-    padding: 2rem;
-    border-radius: 1rem;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.06); /* Subtle shadow */
-    max-width: 1200px;
-    margin: 2rem auto;
-    overflow: hidden;
-    border: none;
-  }
-  
-  .review-list {
-    padding: 1rem;
-  }
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  list-style: none;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.06); /* Subtle shadow */
+  max-width: 1200px;
+  margin: 2rem auto;
+  overflow: hidden;
+  border: none;
+}
+
+.review-list {
+  padding: 1rem;
+}

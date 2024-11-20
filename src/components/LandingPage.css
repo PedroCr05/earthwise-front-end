@@ -1,166 +1,218 @@
 /* Reset default styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f9f9f9;
-    color: black;
-  }
-  
-  a {
-    text-decoration: none;
-    color: #fff;
-  }
-  
-  /* Hero Section */
-  .hero {
-    background: url('path_to_your_image.jpg') no-repeat center center/cover;
-    color: black;
-    text-align: center;
-    padding: 100px 20px;
-  }
-  
-  .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-  }
-  
-  .hero p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-  }
-  
-  .cta-button {
-    background-color: #4CAF50;
-    padding: 15px 30px;
-    font-size: 1rem;
-    border-radius: 5px;
-    text-transform: uppercase;
-  }
-  
-  /* About Us Section */
-  .about {
-    padding: 60px 20px;
-    background-color: #fff;
-    text-align: center;
-  }
-  
-  .about h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-  }
-  
-  .about p {
-    font-size: 1.1rem;
-    color: #666;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  /* Services Section */
-  .services {
-    padding: 60px 20px;
-    background-color: #f4f4f4;
-    text-align: center;
-  }
-  
-  .services h2 {
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: black;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Hero Section */
+.hero {
+  background: url("path_to_your_image.jpg") no-repeat center center/cover;
+  color: black;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.cta-button {
+  background-color: #4caf50;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+/* About Us Section */
+.about {
+  padding: 60px 20px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.about h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.about p {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Services Section */
+.services {
+  padding: 60px 20px;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.services h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.service-card {
+  display: inline-block;
+  width: 30%;
+  margin: 0 20px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-radius: 8px;
+}
+
+.service-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.service-card p {
+  color: #555;
+}
+
+/* Testimonials Section */
+.testimonials {
+  padding: 60px 20px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.testimonials h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.testimonial {
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.testimonial h4 {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Contact CTA Section */
+.cta {
+  padding: 60px 20px;
+  /* 
+  Not sure if you want to keep the same color? The button for cta.bttn
+  is the same color as this background color.
+  */
+  background-color: #4caf50;
+  text-align: center;
+}
+
+.cta h2 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.cta p {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+/* Footer Section */
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.social-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.social-links li {
+  margin: 0 15px;
+}
+
+.social-links a {
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* Responsive Section */
+
+@media (max-width: 400px) {
   .service-card {
-    display: inline-block;
-    width: 30%;
-    margin: 0 20px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    border-radius: 8px;
+    width: 90%;
+    margin: 20px 0;
   }
-  
+
   .service-card h3 {
-    font-size: 1.8rem;
+    font-size: 1.5293rem;
     margin-bottom: 15px;
   }
-  
+
   .service-card p {
-    color: #555;
+    font-size: 1.15rem;
   }
-  
-  /* Testimonials Section */
-  .testimonials {
-    padding: 60px 20px;
-    background-color: #fff;
-    text-align: center;
+
+  .trade-mark {
+    font-size: 1.15rem;
   }
-  
-  .testimonials h2 {
-    font-size: 2.5rem;
-    margin-bottom: 30px;
+}
+
+@media (max-width: 550px) {
+  .hero-content p {
+    font-size: 1.5rem;
   }
-  
-  .testimonial {
-    font-style: italic;
-    margin-bottom: 30px;
+
+  .service-card {
+    width: 60%;
+    margin: 5px 0;
   }
-  
-  .testimonial h4 {
-    font-size: 1.1rem;
-    color: #555;
+
+  .service-card h3 {
+    font-size: 1.75rem;
   }
-  
-  /* Contact CTA Section */
-  .cta {
-    padding: 60px 20px;
-    background-color: #4CAF50;
-    text-align: center;
+
+  .service-card p {
+    font-size: 1.25rem;
   }
-  
-  .cta h2 {
-    font-size: 2.5rem;
-    color: #fff;
-    margin-bottom: 20px;
-  }
-  
-  .cta p {
+
+  .testimonial p {
     font-size: 1.2rem;
-    color: #fff;
-    margin-bottom: 30px;
   }
-  
-  /* Footer Section */
-  .footer {
-    background-color: #333;
-    color: #fff;
-    padding: 30px 20px;
-    text-align: center;
+
+  .testimonial h4 {
+    font-size: 1.5rem;
   }
-  
-  .footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .social-links {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .social-links li {
-    margin: 0 15px;
-  }
-  
-  .social-links a {
-    color: #fff;
-    font-size: 1rem;
-  }
-  
+}

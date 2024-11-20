@@ -2,8 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import productService from "../services/productService";
 import shoppingCartService from "../services/shoppingCartService";
-import userService from "../services/userService"; 
-import reviewService from "../services/reviewService";
+
+import userService from "../services/userService";
 
 import ReviewList from "./ReviewList";
 
@@ -96,7 +96,13 @@ const ProductDescription = ({ addToCart }) => {
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-    if (!comment || rating <= 0) return;
+
+    try {
+      const reviewData = {
+        rating,
+        comment,
+      };
+
 
     const { username, userId } = userService.getUsernameAndUserId() || {};
 
@@ -155,6 +161,10 @@ const ProductDescription = ({ addToCart }) => {
               <button onClick={() => handleEditProduct(product._id)}>Edit Product</button>
             </div>
           )}
+
+
+          <ReviewList reviews={reviews} productId={productId} />
+
         </div>
       </div>
 
