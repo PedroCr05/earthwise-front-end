@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import productService from "../services/productService";
-// import "./EditProduct.css";
+import "./EditProduct.css";
 
 const EditProduct = () => {
   const { productId } = useParams();

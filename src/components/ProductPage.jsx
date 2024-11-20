@@ -1,18 +1,22 @@
-import { useParams, useNavigate } from "react-router-dom"; // Changed to useNavigate
+import { useParams, useNavigate } from "react-router-dom"; 
 import { useEffect, useState } from "react";
 import productService from "../services/productService";
 import shoppingCartService from "../services/shoppingCartService";
 import userService from "../services/userService";
+import reviewService from "../services/reviewService";
 import "./ProductDescription.css";
 
 const ProductDescription = ({ addToCart }) => {
   const { productId } = useParams();
-  const navigate = useNavigate(); // Using navigate for redirection
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [reviews, setReviews] = useState([]); // State for product reviews
+  const [rating, setRating] = useState(0); // State for review rating
+  const [comment, setComment] = useState(""); // State for review comment
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -20,6 +24,7 @@ const ProductDescription = ({ addToCart }) => {
         const productData = await productService.getProductById(productId);
         if (productData) {
           setProduct(productData);
+          setReviews(productData.reviews || []); // Ensure reviews is an array
         } else {
           setError("Product not found");
         }
@@ -70,14 +75,35 @@ const ProductDescription = ({ addToCart }) => {
   const handleDeleteProduct = async (id) => {
     try {
       await productService.deleteProduct(id);
-      navigate("/products"); // Redirecting after product is deleted
+      navigate("/products"); 
     } catch (error) {
       console.error("Error deleting product:", error);
     }
   };
 
   const handleEditProduct = (id) => {
-    navigate(`/edit-product/${id}`); // Navigate to edit page
+    navigate(`/edit-product/${id}`);
+  };
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const reviewData = {
+        rating, 
+        comment,
+      };
+
+      await reviewService.addReview(productId, reviewData);
+      console.log("Review submitted successfully");
+
+      // Refresh reviews
+      const updatedProduct = await productService.getProductById(productId);
+      setReviews(updatedProduct.reviews || []);
+      setRating(0);
+      setComment("");
+    } catch (error) {
+      console.error("Error submitting review:", error.message);
+    }
   };
 
   return (
@@ -109,6 +135,40 @@ const ProductDescription = ({ addToCart }) => {
               <button onClick={() => handleDeleteProduct(product._id)}>Delete</button>
             </div>
           )}
+
+          {/* Review Section */}
+          <div className="reviewsSection">
+            <h3>Reviews</h3>
+            <ul>
+              {reviews.map((review, index) => (
+                <li key={index}>
+                  <p>Rating: {review.rating}/5</p>
+                  <p>{review.comment}</p>
+                  <p>— {review.author || "Anonymous"}</p>
+                </li>
+              ))}
+            </ul>
+
+            {/* Review Form */}
+            <div className="reviewForm">
+              <label>
+                Rating:
+                <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+                  {[...Array(5).keys()].map((num) => (
+                    <option key={num + 1} value={num + 1}>{num + 1}</option>
+                  ))}
+                </select>
+              </label>
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Write a review..."
+              />
+              <button onClick={handleReviewSubmit}>Submit Review</button>
+            </div>
+
+            {error && <div className="error">{error}</div>}
+          </div>
         </div>
       </div>
     </div>

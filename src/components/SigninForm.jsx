@@ -1,7 +1,7 @@
 import { useState } from "react";
 import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
-import "./SigninForm.css"; 
+import "./SigninForm.css";
 
 const SigninForm = ({ user, setUser }) => {
   const navigate = useNavigate();
@@ -23,15 +23,14 @@ const SigninForm = ({ user, setUser }) => {
     try {
       setErrorMessage(""); // Clear previous errors
 
-      let response = await userService.signin(userCredentials);
+      const response = await userService.signin(userCredentials);
       if (response.token) {
-        localStorage.setItem("authToken", response.token);
-        localStorage.setItem("username", response.username);
-        localStorage.setItem("userId", response.user._id); 
-        
-        // Update the user state
-        if (typeof setUser === 'function') {
-          setUser({ username: response.username, _id: response.user._id });
+        localStorage.setItem("authToken", response.token); // Save token in localStorage
+        localStorage.setItem("user", JSON.stringify(response.user)); // Save user details
+
+        // Update user state
+        if (typeof setUser === "function") {
+          setUser(response.user); // Set full user object in state
         } else {
           console.error("setUser is not a function");
         }
@@ -48,19 +47,19 @@ const SigninForm = ({ user, setUser }) => {
   };
 
   const handleSignOut = () => {
-    userService.signout();  
-    if (typeof setUser === 'function') {
-      setUser(null);  
+    userService.signout(); // Clear local storage and perform logout
+    if (typeof setUser === "function") {
+      setUser(null); // Clear user state
     } else {
       console.error("setUser is not a function");
     }
-    navigate("/");  
+    navigate("/"); // Redirect to home
   };
 
   return (
     <div className="signin-form-container">
       <h3 className="signin-form-title">Sign In</h3>
-      {!user?.username ? (
+      {!user ? (
         <form className="signin-form" onSubmit={submitSignin}>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="form-group">

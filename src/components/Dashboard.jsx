@@ -1,59 +1,61 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";  
+import axios from "axios";
 import userService from "../services/userService";
-import './Dashboard.css'; 
+import "./Dashboard.css";
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null); 
-  const [role, setRole] = useState(""); 
-  const [products, setProducts] = useState([]); 
-  const [loading, setLoading] = useState(true); 
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState("");
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // Fetch current user
   useEffect(() => {
     const currentUser = userService.getCurrentUser();
     if (currentUser) {
-      setUser(currentUser); // Set user data from localStorage
-      setRole(currentUser.role); // Set role of the user
+      setUser(currentUser);
+      setRole(currentUser.role || "User");
     } else {
-      navigate("/signin"); // Redirect if no user is found
+      navigate("/signin");
     }
   }, [navigate]);
 
-  // Fetch all products from the site when the component loads
+  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      setError(null);
-
+      const token = localStorage.getItem("authToken"); // Retrieve the token
+  
       try {
-        // Axios call to fetch all products
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACK_END_SERVER_URL}/products`
-        );
-        console.log("Fetched all products:", res.data); // Log fetched products
-
-        // Ensure the response is an array of products
-        if (Array.isArray(res.data)) {
-          setProducts(res.data); // Set the products in state
+        const response = await axios.get("http://localhost:3000/products", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Pass the token in the header
+          },
+        });
+        console.log("API Response:", response.data);
+  
+        if (Array.isArray(response.data)) {
+          setProducts(response.data);
         } else {
-          setError("Invalid data format received.");
+          throw new Error("Unexpected response format.");
         }
       } catch (err) {
-        console.error("Error fetching products:", err); // Log any errors
-        setError("Failed to load products. Please try again.");
+        console.error("Error fetching products:", err.message);
+        setError("Unable to fetch products. Please try again later.");
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
-
+  
     fetchProducts();
-  }, []); 
+  }, []);
+  
 
   if (!user) {
-    return <p>Loading...</p>; 
+    return <p>Loading user data...</p>;
   }
 
   return (
@@ -74,21 +76,21 @@ const Dashboard = () => {
       <section className="product-section">
         <h3>Available Products</h3>
         {loading ? (
-          <p>Loading products...</p> 
+          <p>Loading products...</p>
         ) : error ? (
-          <p className="error">{error}</p> 
-        ) : products.length === 0 ? (
-          <p>No products available at the moment.</p> 
-        ) : (
-          <ul>
+          <p className="error-message">{error}</p>
+        ) : products.length > 0 ? (
+          <ul className="product-list">
             {products.map((product) => (
-              <li key={product._id}>
+              <li key={product._id} className="product-item">
                 <h4>{product.productName}</h4>
                 <p>{product.productDescription}</p>
-                <p className="product-price">${product.productPrice}</p>
-              </li> 
+                <p className="product-price">${product.productPrice.toFixed(2)}</p>
+              </li>
             ))}
           </ul>
+        ) : (
+          <p>No products available at the moment.</p>
         )}
       </section>
     </div>
