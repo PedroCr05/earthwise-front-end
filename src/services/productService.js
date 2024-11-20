@@ -10,7 +10,7 @@ const getUserRole = () => {
   const token = getAuthToken();
   if (token) {
     try {
-      const decoded = JSON.parse(atob(token.split('.')[1])); // Decoding JWT token to get user role (if it's a JWT)
+      const decoded = JSON.parse(atob(token.split(".")[1])); // Decoding JWT token to get user role (if it's a JWT)
       return decoded?.role; // Assuming role is stored in the token
     } catch (error) {
       console.error("Error decoding token:", error);
@@ -49,7 +49,7 @@ const getProducts = async () => {
     const res = await axiosInstance.get();
     return res.data;
   } catch (error) {
-    handleError(error, 'fetch products');
+    handleError(error, "fetch products");
   }
 };
 
@@ -57,9 +57,10 @@ const getProducts = async () => {
 const getProductById = async (id) => {
   try {
     const res = await axiosInstance.get(`/${id}`);
+    console.log("res.data", res.data);
     return res.data;
   } catch (error) {
-    handleError(error, 'fetch product details');
+    handleError(error, "fetch product details");
   }
 };
 
@@ -72,7 +73,7 @@ const createProduct = async (productData) => {
     const res = await axiosInstance.post("/", productData);
     return res.data;
   } catch (error) {
-    handleError(error, 'create product');
+    handleError(error, "create product");
   }
 };
 
@@ -85,7 +86,7 @@ const updateProduct = async (id, productData) => {
     const res = await axiosInstance.put(`/${id}`, productData);
     return res.data;
   } catch (error) {
-    handleError(error, 'update product');
+    handleError(error, "update product");
   }
 };
 
@@ -98,22 +99,17 @@ const deleteProduct = async (id) => {
     const res = await axiosInstance.delete(`/${id}`);
     return res.data;
   } catch (error) {
-    handleError(error, 'delete product');
+    handleError(error, "delete product");
   }
 };
 
-export default { 
-  getProducts, 
-  getProductById, 
-  createProduct, 
-  updateProduct, 
-  deleteProduct 
+export default {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
 };
-
-
-
-
-
 
 // import axios from "axios";
 
@@ -216,10 +212,10 @@ export default {
 //   }
 // };
 
-// export default { 
-//   getProducts, 
-//   getProductById, 
-//   createProduct, 
-//   updateProduct, 
-//   deleteProduct 
+// export default {
+//   getProducts,
+//   getProductById,
+//   createProduct,
+//   updateProduct,
+//   deleteProduct
 // };

@@ -3,13 +3,17 @@ import { useEffect, useState } from "react";
 import productService from "../services/productService";
 import shoppingCartService from "../services/shoppingCartService";
 import userService from "../services/userService";
-import reviewService from "../services/reviewService";
+
+
+import ReviewList from "./ReviewList";
+
 import "./ProductDescription.css";
 
 const ProductDescription = ({ addToCart }) => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
@@ -24,7 +28,8 @@ const ProductDescription = ({ addToCart }) => {
         const productData = await productService.getProductById(productId);
         if (productData) {
           setProduct(productData);
-          setReviews(productData.reviews || []); // Ensure reviews is an array
+
+          setReviews(productData.reviews);
         } else {
           setError("Product not found");
         }
@@ -64,6 +69,7 @@ const ProductDescription = ({ addToCart }) => {
         productPrice: product.productPrice,
         productImage: product.productImage,
         quantity: quantity,
+        review: product.review,
       };
       await shoppingCartService.addItemToCart(item);
       addToCart(product, quantity);
@@ -120,55 +126,36 @@ const ProductDescription = ({ addToCart }) => {
 
           <div className="quantityContainer">
             <label htmlFor="quantity">Qty: </label>
-            <select id="quantity" value={quantity} onChange={handleQuantityChange}>
+            <select
+              id="quantity"
+              value={quantity}
+              onChange={handleQuantityChange}
+            >
               {[...Array(10).keys()].map((num) => (
-                <option key={num + 1} value={num + 1}>{num + 1}</option>
+                <option key={num + 1} value={num + 1}>
+                  {num + 1}
+                </option>
               ))}
             </select>
           </div>
 
-          <button className="buyNowButton" onClick={handleAddToCart}>Add to Cart</button>
+          <button className="buyNowButton" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
 
           {isAdmin && (
             <div className="admin-actions">
-              <button onClick={() => handleEditProduct(product._id)}>Edit</button>
-              <button onClick={() => handleDeleteProduct(product._id)}>Delete</button>
+              <button onClick={() => handleEditProduct(product._id)}>
+                Edit
+              </button>
+              <button onClick={() => handleDeleteProduct(product._id)}>
+                Delete
+              </button>
             </div>
           )}
 
-          {/* Review Section */}
-          <div className="reviewsSection">
-            <h3>Reviews</h3>
-            <ul>
-              {reviews.map((review, index) => (
-                <li key={index}>
-                  <p>Rating: {review.rating}/5</p>
-                  <p>{review.comment}</p>
-                  <p>— {review.author || "Anonymous"}</p>
-                </li>
-              ))}
-            </ul>
+          <ReviewList reviews={reviews} productId={productId} />
 
-            {/* Review Form */}
-            <div className="reviewForm">
-              <label>
-                Rating:
-                <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-                  {[...Array(5).keys()].map((num) => (
-                    <option key={num + 1} value={num + 1}>{num + 1}</option>
-                  ))}
-                </select>
-              </label>
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Write a review..."
-              />
-              <button onClick={handleReviewSubmit}>Submit Review</button>
-            </div>
-
-            {error && <div className="error">{error}</div>}
-          </div>
         </div>
       </div>
     </div>
