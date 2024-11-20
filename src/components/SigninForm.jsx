@@ -1,8 +1,7 @@
 import { useState } from "react";
 import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
-import "./SigninForm.css";
-
+import "./SignupForm";
 const SigninForm = ({ user, setUser }) => {
   const navigate = useNavigate();
   const [userCredentials, setUserCredentials] = useState({

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import userService from "../services/userService";
+import "./EachReview.css";
 
 const EachReview = ({ review }) => {
   const [userName, setUserName] = useState("");
@@ -19,14 +20,16 @@ const EachReview = ({ review }) => {
     }
   }, [review.author]);
   return (
-    <li>
-      <p>
-        <strong>Recommend:</strong> {review.recommend ? "Yes" : "No"}
-      </p>
-      <p>{review.text}</p>
-      <p>
-        <em>By {userName}</em>
-      </p>
+    <li className="each-review-comment">
+      <div>
+        <h3>
+          <strong>Recommend:</strong> {review.recommend ? "Yes" : "No"}
+        </h3>
+        <p className="review-comment">{review.text}</p>
+        <p className="commenter-username">
+          <em>By {userName}</em>
+        </p>
+      </div>
     </li>
   );
 };
