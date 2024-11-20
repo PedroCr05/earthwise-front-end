@@ -9,6 +9,7 @@ const ProductDescription = ({ addToCart }) => {
   const { productId } = useParams();
   const navigate = useNavigate(); // Using navigate for redirection
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
@@ -30,6 +31,23 @@ const ProductDescription = ({ addToCart }) => {
         setLoading(false);
       }
     };
+
+    //Fetch Reviews for Products
+    // const fetchReviews = async (productName) => {
+    //   try {
+    //     const allReviews = await reviewService.getReviews();
+    //     const filteredReviews = allReviews.filter(
+    //       (review) => review.productName === productName
+    //     );
+    //     setReviews(filteredReviews);
+    //     const userIds = filteredReviews.flatMap((review) => review.author);
+    //     const userData = await userService.getUsersByIds(userIds);
+    //     setUsers(userData);
+    //   } catch (err) {
+    //     console.error("Error fetching reviews:", err);
+    //     setError("An error occurred while fetching the reviews.");
+    //   }
+    // };
 
     fetchProduct();
 
@@ -59,6 +77,7 @@ const ProductDescription = ({ addToCart }) => {
         productPrice: product.productPrice,
         productImage: product.productImage,
         quantity: quantity,
+        review: product.review,
       };
       await shoppingCartService.addItemToCart(item);
       addToCart(product, quantity);
@@ -94,23 +113,59 @@ const ProductDescription = ({ addToCart }) => {
 
           <div className="quantityContainer">
             <label htmlFor="quantity">Qty: </label>
-            <select id="quantity" value={quantity} onChange={handleQuantityChange}>
+            <select
+              id="quantity"
+              value={quantity}
+              onChange={handleQuantityChange}
+            >
               {[...Array(10).keys()].map((num) => (
-                <option key={num + 1} value={num + 1}>{num + 1}</option>
+                <option key={num + 1} value={num + 1}>
+                  {num + 1}
+                </option>
               ))}
             </select>
           </div>
 
-          <button className="buyNowButton" onClick={handleAddToCart}>Add to Cart</button>
+          <button className="buyNowButton" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
 
           {isAdmin && (
             <div className="admin-actions">
-              <button onClick={() => handleEditProduct(product._id)}>Edit</button>
-              <button onClick={() => handleDeleteProduct(product._id)}>Delete</button>
+              <button onClick={() => handleEditProduct(product._id)}>
+                Edit
+              </button>
+              <button onClick={() => handleDeleteProduct(product._id)}>
+                Delete
+              </button>
             </div>
           )}
         </div>
       </div>
+      <ReviewList reviews={reviews} productId={productId} />
+      {/* <div className="reviewsSection">
+        <h2>Customer Reviews</h2>
+        {product.reviews.length === 0 ? (
+          <p>No reviews available for this product.</p>
+        ) : (
+          <ul className="reviewsList">
+            {product.reviews.map((review) => {
+              const reviewer = users.find(
+                (user) => user._id === product.review.author[0]
+              );
+              return (
+                <li key={product.review.id}>
+                  <h3>{reviewer ? reviewer.name : "Anonymous"}</h3>
+                  <p>{product.review.text}</p>
+                  <small>
+                    Recommendation: {review.recommend ? "Yes" : "No"}
+                  </small>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div> */}
     </div>
   );
 };
