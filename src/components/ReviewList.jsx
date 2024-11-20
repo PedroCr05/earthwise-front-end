@@ -1,4 +1,5 @@
 import React from "react";
+import EachReview from "./EachReview";
 
 const ReviewList = ({ reviews }) => {
   // Handle the case where no reviews are provided
@@ -11,15 +12,7 @@ const ReviewList = ({ reviews }) => {
       <h2>Customer Reviews</h2>
       <ul>
         {reviews.map((review, index) => (
-          <li key={index}>
-            <p>
-              <strong>Recommend:</strong> {review.recommend ? "Yes" : "No"}
-            </p>
-            <p>{review.text}</p>
-            <p>
-              <em>By {review.author?.[0]?.name || "Anonymous"}</em>
-            </p>
-          </li>
+          <EachReview key={review.id || index} review={review} />
         ))}
       </ul>
     </div>
