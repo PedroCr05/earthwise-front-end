@@ -56,16 +56,10 @@ const getUserById = async (userId) => {
   }
 };
 
-// Get current user from local storage and check role
+// Get current user from local storage
 const getCurrentUser = () => {
-  const token = localStorage.getItem("authToken");
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!token || !user) {
-    return null;
-  }
-
-  // Adding role info here to ensure it is available
-  return { token, ...user, role: user.role }; // Ensure user object includes the role
+  const user = JSON.parse(localStorage.getItem("user")); // Fetch user from 'user' key
+  return user; // Return null if no user exists
 };
 
 export default { signup, signin, signout, getUserById, getCurrentUser };
