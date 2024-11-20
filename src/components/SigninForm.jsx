@@ -1,7 +1,7 @@
 import { useState } from "react";
 import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
-import "./SignInForm.css";
+import "./SigninForm.css";
 
 const SigninForm = ({ user, setUser }) => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const SigninForm = ({ user, setUser }) => {
     try {
       setErrorMessage(""); // Clear previous errors
 
-      let response = await userService.signin(userCredentials);
+      const response = await userService.signin(userCredentials);
       if (response.token) {
         localStorage.setItem("authToken", response.token);
         localStorage.setItem("username", response.username);
@@ -61,7 +61,7 @@ const SigninForm = ({ user, setUser }) => {
   return (
     <div className="signin-form-container">
       <h3 className="signin-form-title">Sign In</h3>
-      {!user?.username ? (
+      {!user ? (
         <form className="signin-form" onSubmit={submitSignin}>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="form-group">
