@@ -168,10 +168,12 @@ a {
   font-size: 1rem;
 }
 
+/* Responsive Section */
+
 @media (max-width: 400px) {
   .service-card {
     width: 90%;
-    margin: 20px 20px;
+    margin: 20px 0;
   }
 
   .service-card h3 {
@@ -185,5 +187,32 @@ a {
 
   .trade-mark {
     font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .hero-content p {
+    font-size: 1.5rem;
+  }
+
+  .service-card {
+    width: 60%;
+    margin: 5px 0;
+  }
+
+  .service-card h3 {
+    font-size: 1.75rem;
+  }
+
+  .service-card p {
+    font-size: 1.25rem;
+  }
+
+  .testimonial p {
+    font-size: 1.2rem;
+  }
+
+  .testimonial h4 {
+    font-size: 1.5rem;
   }
 }
