@@ -1,5 +1,5 @@
-import React from "react";
 import EachReview from "./EachReview";
+import "./ReviewList.css";
 
 const ReviewList = ({ reviews }) => {
   // Handle the case where no reviews are provided
@@ -10,7 +10,7 @@ const ReviewList = ({ reviews }) => {
   return (
     <div className="review-list">
       <h2>Customer Reviews</h2>
-      <ul>
+      <ul className="customer-review-listing">
         {reviews.map((review, index) => (
           <EachReview key={review.id || index} review={review} />
         ))}

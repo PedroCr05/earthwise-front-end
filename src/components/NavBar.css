@@ -139,3 +139,46 @@ body {
     padding: 10px;
   }
 }
+
+.nav-button {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.nav-button:hover {
+  color: #0056b3;
+}
+
+/* User info container */
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-left: 20px; /* Space between avatar and the sign-out button */
+}
+
+/* Avatar image */
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 8px; /* Space between avatar and username */
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) brightness(0) invert(1); /* Turns image white */
+
+}
+
+/* Username text */
+.username {
+  font-weight: bold;
+  color: white;
+}

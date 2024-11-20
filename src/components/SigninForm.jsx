@@ -3,13 +3,14 @@ import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
 import "./SigninForm.css";
 
-const SigninForm = ({ user, setUser }) => {
-  const navigate = useNavigate();
+const SigninForm = ({ setUser }) => {
   const [userCredentials, setUserCredentials] = useState({
     username: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [isLoading, setIsLoading] = useState(false); 
+  const navigate = useNavigate();
 
   const handleFormChange = (evt) => {
     setUserCredentials({
@@ -20,93 +21,66 @@ const SigninForm = ({ user, setUser }) => {
 
   const submitSignin = async (evt) => {
     evt.preventDefault();
+    setIsLoading(true); 
+    setErrorMessage(""); 
+
+    const obj = {
+      username: userCredentials.username,
+      password: userCredentials.password,
+    };
+
     try {
-      setErrorMessage(""); // Clear previous errors
-
-      const response = await userService.signin(userCredentials);
+      let response = await userService.signin(obj);
       if (response.token) {
-        localStorage.setItem("authToken", response.token); // Save token in localStorage
-        localStorage.setItem("user", JSON.stringify(response.user)); // Save user details
-
-        // Update user state
-        if (typeof setUser === "function") {
-          setUser(response.user); // Set full user object in state
-        } else {
-          console.error("setUser is not a function");
-        }
-
-        // Redirect to the dashboard
+        localStorage.setItem("authToken", response.token);
+        localStorage.setItem("user", JSON.stringify(response.user)); 
+        setUser(response.user); 
         navigate("/dashboard");
       }
     } catch (err) {
       console.error("Signin failed:", err);
-      setErrorMessage(
-        err.response?.data?.message || "Signin failed. Please check your credentials."
-      );
+      setErrorMessage("Invalid username or password. Please try again."); 
+    } finally {
+      setIsLoading(false); 
     }
-  };
-
-  const handleSignOut = () => {
-    userService.signout(); // Clear local storage and perform logout
-    if (typeof setUser === "function") {
-      setUser(null); // Clear user state
-    } else {
-      console.error("setUser is not a function");
-    }
-    navigate("/"); // Redirect to home
   };
 
   return (
     <div className="signin-form-container">
       <h3 className="signin-form-title">Sign In</h3>
-      {!user ? (
-        <form className="signin-form" onSubmit={submitSignin}>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.username}
-              name="username"
-              id="username"
-              type="text"
-              required
-            />
-          </div>
+      <form className="signin-form" onSubmit={submitSignin}>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.username}
+            name="username"
+            id="username"
+            type="text"
+            required
+          />
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.password}
-              name="password"
-              id="password"
-              type="password"
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.password}
+            name="password"
+            id="password"
+            type="password"
+            required
+          />
+        </div>
 
-          <div className="form-actions">
-            <button type="submit" className="signin-button">
-              Sign In
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate("/sign-up")}
-              className="signup-button"
-            >
-              Sign Up
-            </button>
-          </div>
-        </form>
-      ) : (
-        <div className="welcome-message">
-          Welcome, {user.username}!{" "}
-          <button onClick={handleSignOut} className="signout-button">
-            Sign Out
+        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
+
+        <div className="form-actions">
+          <button type="submit" className="signin-button" disabled={isLoading}>
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </div>
-      )}
+      </form>
     </div>
   );
 };

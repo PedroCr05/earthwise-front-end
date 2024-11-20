@@ -36,19 +36,20 @@ const SignupForm = () => {
           zip: parseInt(userCredentials.zip),
         },
       ],
-      role: "customer", // Set role to 'customer' explicitly
+      role: "customer", 
     };
     try {
       let response = await userService.signup(obj);
       if (response.token) {
         localStorage.setItem("authToken", response.token);
-        localStorage.setItem("username", userCredentials.username);
+        localStorage.setItem("user", JSON.stringify(response.user)); 
         navigate("/dashboard");
       }
     } catch (err) {
       console.error("Signup failed:", err);
     }
   };
+  
 
   const statesList = [
     "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
@@ -190,20 +191,3 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
-
-
-
-        {/* Role selection */}
-        {/* <div className="form-group">
-          <label htmlFor="role">Role</label>
-          <select
-            name="role"
-            id="role"
-            value={userCredentials.role}
-            onChange={handleFormChange}
-          >
-            <option value="customer">Customer</option>
-            <option value="admin">Admin</option>
-            <option value="manager">Manager</option>
-          </select>
-        </div> */}

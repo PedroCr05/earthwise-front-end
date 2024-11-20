@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
+import { useNavigate } from "react-router-dom"; 
 import productService from "../services/productService";
-import userService from "../services/userService"; // Import the user service
+import userService from "../services/userService"; 
 import { useEffect, useState } from "react";
 import "./ProductList.css";
 
 const ProductList = () => {
-  const navigate = useNavigate(); // Initialize navigate for programmatic navigation
+  const navigate = useNavigate();
   const [productList, setProductList] = useState([]);
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -16,32 +16,40 @@ const ProductList = () => {
     if (currentUser && currentUser.role === "admin") {
       setIsAdmin(true);
     }
-  }, []); // Only runs once when the component mounts
+  }, []);
 
   // Fetch products when the component mounts
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const products = await productService.getProducts();
+        const response = await productService.getProducts();
+        console.log('Fetched products data:', response); // Debugging log
+  
+        // Extract the 'products' array from the response
+        const products = response.products;
+  
+        // Check if products is an array
         if (!Array.isArray(products)) {
           throw new Error("Products data is not an array");
         }
+  
         setProductList(products);
       } catch (error) {
         console.error("Error fetching products:", error);
         setError("Failed to load products. Please try again later.");
       }
     };
+  
     fetchProducts();
-  }, []); // Only runs once when the component mounts
+  }, []);
+  
 
   // Handle deleting a product
   const handleDeleteProduct = async (productId) => {
     try {
       await productService.deleteProduct(productId);
       setProductList((prevList) => prevList.filter((product) => product._id !== productId));
-      // Optionally show success feedback
-      setError("Product deleted successfully"); // Can be used as feedback instead of alert
+      setError("Product deleted successfully");
     } catch (error) {
       console.error("Error deleting product:", error);
       setError("Failed to delete product. Please try again later.");
@@ -55,7 +63,7 @@ const ProductList = () => {
 
   // Handle navigating to edit product page
   const handleEditProduct = (productId) => {
-    navigate(`/edit-product/${productId}`); // Navigate to edit page
+    navigate(`/edit-product/${productId}`);
   };
 
   if (error) {
@@ -112,3 +120,4 @@ const ProductList = () => {
 };
 
 export default ProductList;
+
