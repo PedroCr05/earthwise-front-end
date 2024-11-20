@@ -2,15 +2,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 import authService from "../services/userService";
 
-const NavBar = ({ user, onLogout }) => {
+const NavBar = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    authService.signout();
-    if (onLogout) {
-      onLogout();
+    authService.signout(); 
+    if (setUser) {
+      setUser(null);
     }
-    navigate("/");
+    navigate("/"); 
   };
 
   return (
@@ -19,7 +19,8 @@ const NavBar = ({ user, onLogout }) => {
         {/* Logo */}
         <div className="logo">
           <Link to="/">
-            <img src="favicon_io/apple-touch-icon.png" alt="Site Logo" />
+          <img src="/favicon_io/apple-touch-icon.png" alt="Site Logo" />
+
           </Link>
         </div>
 
@@ -35,6 +36,7 @@ const NavBar = ({ user, onLogout }) => {
               Products
             </Link>
           </li>
+
           {/* 
           Not sure if this unordered list is meant to be here? 
           Going to comment it out for now. 
@@ -57,15 +59,18 @@ const NavBar = ({ user, onLogout }) => {
               </button>
             ) : (
               <>
+
                 <Link to="/signin" className="nav-button">
                   Sign In
                 </Link>
+              </li>
+              <li>
                 <Link to="/signup" className="nav-button">
                   Sign Up
                 </Link>
-              </>
-            )}
-          </li>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>

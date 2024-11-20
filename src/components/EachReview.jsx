@@ -1,24 +1,35 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import userService from "../services/userService";
 import "./EachReview.css";
 
 const EachReview = ({ review }) => {
   const [userName, setUserName] = useState("");
-  const getUserName = async () => {
-    try {
-      const response = await userService.getUserById(review.author);
 
+  const getUserName = useCallback(async () => {
+    try {
+      const userId = review.author._id || review.author;
+      console.log("Fetching user data for author ID:", userId); 
+      const response = await userService.getUserById(userId);
+      console.log("User response:", response); 
       setUserName(response.username || "Anonymous");
     } catch (err) {
       console.error("Error fetching user", err);
       setUserName("Anonymous");
     }
-  };
+  }, [review.author]); 
+  
+
   useEffect(() => {
     if (review.author) {
+      console.log("Review author present:", review.author); 
       getUserName();
     }
-  }, [review.author]);
+  }, [review.author, getUserName]); 
+
+  useEffect(() => {
+    console.log("UserName state updated to:", userName);
+  }, [userName]); 
+
   return (
     <li className="each-review-comment">
       <div>
