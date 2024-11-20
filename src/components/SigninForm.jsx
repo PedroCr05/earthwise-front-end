@@ -1,8 +1,7 @@
 import { useState } from "react";
 import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
-import "./SigninForm.css";
-
+import "./SignupForm";
 const SigninForm = ({ user, setUser }) => {
   const navigate = useNavigate();
   const [userCredentials, setUserCredentials] = useState({
@@ -25,12 +24,13 @@ const SigninForm = ({ user, setUser }) => {
 
       const response = await userService.signin(userCredentials);
       if (response.token) {
-        localStorage.setItem("authToken", response.token); // Save token in localStorage
-        localStorage.setItem("user", JSON.stringify(response.user)); // Save user details
+        localStorage.setItem("authToken", response.token);
+        localStorage.setItem("username", response.username);
+        localStorage.setItem("userId", response.user._id);
 
-        // Update user state
+        // Update the user state
         if (typeof setUser === "function") {
-          setUser(response.user); // Set full user object in state
+          setUser({ username: response.username, _id: response.user._id });
         } else {
           console.error("setUser is not a function");
         }
@@ -41,19 +41,20 @@ const SigninForm = ({ user, setUser }) => {
     } catch (err) {
       console.error("Signin failed:", err);
       setErrorMessage(
-        err.response?.data?.message || "Signin failed. Please check your credentials."
+        err.response?.data?.message ||
+          "Signin failed. Please check your credentials."
       );
     }
   };
 
   const handleSignOut = () => {
-    userService.signout(); // Clear local storage and perform logout
+    userService.signout();
     if (typeof setUser === "function") {
-      setUser(null); // Clear user state
+      setUser(null);
     } else {
       console.error("setUser is not a function");
     }
-    navigate("/"); // Redirect to home
+    navigate("/");
   };
 
   return (
@@ -92,7 +93,7 @@ const SigninForm = ({ user, setUser }) => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/sign-up")}
+              onClick={() => navigate("/signup")}
               className="signup-button"
             >
               Sign Up

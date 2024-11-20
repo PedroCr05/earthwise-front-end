@@ -1,9 +1,8 @@
-import { useParams, useNavigate } from "react-router-dom"; 
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import productService from "../services/productService";
 import shoppingCartService from "../services/shoppingCartService";
 import userService from "../services/userService";
-
 
 import ReviewList from "./ReviewList";
 
@@ -13,7 +12,6 @@ const ProductDescription = ({ addToCart }) => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
-  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
@@ -81,7 +79,7 @@ const ProductDescription = ({ addToCart }) => {
   const handleDeleteProduct = async (id) => {
     try {
       await productService.deleteProduct(id);
-      navigate("/products"); 
+      navigate("/products");
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -95,7 +93,7 @@ const ProductDescription = ({ addToCart }) => {
     e.preventDefault();
     try {
       const reviewData = {
-        rating, 
+        rating,
         comment,
       };
 
@@ -155,7 +153,6 @@ const ProductDescription = ({ addToCart }) => {
           )}
 
           <ReviewList reviews={reviews} productId={productId} />
-
         </div>
       </div>
     </div>

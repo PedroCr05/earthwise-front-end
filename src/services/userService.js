@@ -8,7 +8,10 @@ const signup = async (body) => {
     const res = await axios.post(`${BASE_URL}/signup`, body);
     return res.data;
   } catch (error) {
-    console.error("Error during signup:", error.response?.data || error.message);
+    console.error(
+      "Error during signup:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
@@ -23,7 +26,10 @@ const signin = async (body) => {
     }
     return res.data;
   } catch (error) {
-    console.error("Error during signin:", error.response?.data || error.message);
+    console.error(
+      "Error during signin:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
@@ -51,7 +57,10 @@ const getUserById = async (userId) => {
     });
     return res.data;
   } catch (error) {
-    console.error("Error fetching user by ID:", error.response?.data || error.message);
+    console.error(
+      "Error fetching user by ID:",
+      error.response?.data || error.message
+    );
     return null;
   }
 };
