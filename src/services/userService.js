@@ -4,15 +4,34 @@ const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/users`;
 
 // Helper function to handle errors
 const handleError = (error, context) => {
-  const errorMessage = error.response?.data?.message || error.message || "An unknown error occurred.";
-  console.error(`Error during ${context}:`, error.response?.data || error.message);
-  throw new Error(errorMessage); 
+  const errorMessage =
+    error.response?.data?.message ||
+    error.message ||
+    "An unknown error occurred.";
+  console.error(
+    `Error during ${context}:`,
+    error.response?.data || error.message
+  );
+  throw new Error(errorMessage);
 };
 
 // Sign up a new user
 const signup = async (body) => {
   try {
     const res = await axios.post(`${BASE_URL}/signup`, body);
+    if (res.data.token) {
+      localStorage.setItem("authToken", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      if (!localStorage.getItem("authToken")) {
+        throw new Error("Failed to save authentication token.");
+      }
+
+      const user = res.data.user;
+      if (!user || !user._id || !user.username || !user.email) {
+        throw new Error("User data is incomplete.");
+      }
+    }
     return res.data;
   } catch (error) {
     handleError(error, "signup");
@@ -38,6 +57,7 @@ const signin = async (body) => {
     }
     return res.data;
   } catch (error) {
+    console.log("error", error);
     handleError(error, "signin");
   }
 };
@@ -46,7 +66,7 @@ const signin = async (body) => {
 const signout = () => {
   localStorage.removeItem("authToken");
   localStorage.removeItem("user");
-  window.location.replace("/"); 
+  window.location.replace("/");
 };
 
 // Get user data by ID or username (Requires Authentication)
@@ -84,13 +104,13 @@ const getUserById = async (userId) => {
 // Get current user from local storage (No authentication required)
 const getCurrentUser = () => {
   try {
-    const user = JSON.parse(localStorage.getItem("user")); 
+    const user = JSON.parse(localStorage.getItem("user"));
     if (user && (!user._id || !user.username || !user.email)) {
       console.error("User data is incomplete. Please sign in again.");
-      localStorage.removeItem("user"); 
+      localStorage.removeItem("user");
       return null;
     }
-    return user || null; 
+    return user || null;
   } catch (error) {
     console.error("Error parsing user from localStorage:", error.message);
     return null;
@@ -100,7 +120,7 @@ const getCurrentUser = () => {
 // Utility function to check if the user is authenticated
 const isAuthenticated = () => {
   const token = localStorage.getItem("authToken");
-  return !!token; 
+  return !!token;
 };
 
 // Fetch username and user ID for the current user
@@ -115,4 +135,12 @@ const getUsernameAndUserId = () => {
   return null;
 };
 
-export default { signup, signin, signout, getUserById, getCurrentUser, isAuthenticated, getUsernameAndUserId };
+export default {
+  signup,
+  signin,
+  signout,
+  getUserById,
+  getCurrentUser,
+  isAuthenticated,
+  getUsernameAndUserId,
+};
