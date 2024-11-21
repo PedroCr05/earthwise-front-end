@@ -8,9 +8,10 @@ import SignupForm from "./components/SignupForm";
 import SigninForm from "./components/SigninForm";
 import LandingPage from "./components/LandingPage";
 import Dashboard from "./components/Dashboard";
-import NewProduct from "./components/NewProduct"; // Import NewProduct
-import "./App.css";
+import NewProduct from "./components/NewProduct";
 import EditProduct from "./components/EditProduct";
+import GuestProducts from "./components/GuestProducts";
+import "./App.css";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -19,14 +20,13 @@ const App = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch user data from local storage on initial load to maintain session
   useEffect(() => {
+    // Check for token and username in localStorage
     const storedToken = localStorage.getItem("authToken");
-    if (storedToken) {
-      setUser({
-        username: localStorage.getItem("username"),
-        // You can also add other user details if necessary (e.g., role, email)
-      });
+    const storedUsername = localStorage.getItem("username");
+
+    if (storedToken && storedUsername) {
+      setUser({ username: storedUsername }); // Set user state only if both are available
     }
   }, []);
 
@@ -47,15 +47,16 @@ const App = () => {
   const handleUserLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
-    setUser(null); // Reset user state
+    setUser(null); // Reset user state to null on logout
     navigate("/"); // Navigate to the landing page (or sign-in page)
   };
 
   return (
     <>
-      <NavBar user={user} onLogout={handleUserLogout} />
+      <NavBar user={user} setUser={setUser} onLogout={handleUserLogout} />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/guest-products" element={<GuestProducts />} />
         <Route path="/products" element={<ProductList />} />
         <Route
           path="/product/:productId"
@@ -63,13 +64,10 @@ const App = () => {
         />
         <Route path="/cart" element={<ShoppingCart user={user} />} />
         <Route path="/signup" element={<SignupForm setUser={setUser} />} />
-        <Route path="/signin" element={<SigninForm />} />
+        <Route path="/signin" element={<SigninForm setUser={setUser} />} />
         <Route path="/dashboard" element={<Dashboard user={user} />} />
-
-        <Route path="/new-product" element={<NewProduct />} />{" "}
-        {/* Route for NewProduct */}
+        <Route path="/new-product" element={<NewProduct />} />
         <Route path="/edit-product/:id" element={<EditProduct />} />
-
       </Routes>
     </>
   );

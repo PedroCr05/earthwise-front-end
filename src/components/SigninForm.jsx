@@ -1,6 +1,7 @@
 import { useState } from "react";
 import userService from "../services/userService";
 import { useNavigate } from "react-router-dom";
+
 import "./SignupForm";
 const SigninForm = ({ user, setUser }) => {
   const navigate = useNavigate();
@@ -8,7 +9,9 @@ const SigninForm = ({ user, setUser }) => {
     username: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [isLoading, setIsLoading] = useState(false); 
+  const navigate = useNavigate();
 
   const handleFormChange = (evt) => {
     setUserCredentials({
@@ -19,8 +22,9 @@ const SigninForm = ({ user, setUser }) => {
 
   const submitSignin = async (evt) => {
     evt.preventDefault();
-    try {
-      setErrorMessage(""); // Clear previous errors
+    setIsLoading(true); 
+    setErrorMessage(""); 
+
 
       const response = await userService.signin(userCredentials);
       if (response.token) {
@@ -36,10 +40,12 @@ const SigninForm = ({ user, setUser }) => {
         }
 
         // Redirect to the dashboard
+
         navigate("/dashboard");
       }
     } catch (err) {
       console.error("Signin failed:", err);
+
       setErrorMessage(
         err.response?.data?.message ||
           "Signin failed. Please check your credentials."
@@ -60,32 +66,33 @@ const SigninForm = ({ user, setUser }) => {
   return (
     <div className="signin-form-container">
       <h3 className="signin-form-title">Sign In</h3>
-      {!user ? (
-        <form className="signin-form" onSubmit={submitSignin}>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.username}
-              name="username"
-              id="username"
-              type="text"
-              required
-            />
-          </div>
+      <form className="signin-form" onSubmit={submitSignin}>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.username}
+            name="username"
+            id="username"
+            type="text"
+            required
+          />
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={handleFormChange}
-              value={userCredentials.password}
-              name="password"
-              id="password"
-              type="password"
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            onChange={handleFormChange}
+            value={userCredentials.password}
+            name="password"
+            id="password"
+            type="password"
+            required
+          />
+        </div>
+
+        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
+
 
           <div className="form-actions">
             <button type="submit" className="signin-button">
@@ -107,7 +114,7 @@ const SigninForm = ({ user, setUser }) => {
             Sign Out
           </button>
         </div>
-      )}
+      </form>
     </div>
   );
 };

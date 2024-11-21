@@ -37,8 +37,9 @@ const Dashboard = () => {
         });
         console.log("API Response:", response.data);
   
-        if (Array.isArray(response.data)) {
-          setProducts(response.data);
+        // Access the 'products' array from the response object
+        if (response.data && Array.isArray(response.data.products)) {
+          setProducts(response.data.products); // Set products from the response
         } else {
           throw new Error("Unexpected response format.");
         }
@@ -52,8 +53,8 @@ const Dashboard = () => {
   
     fetchProducts();
   }, []);
-  
 
+  // Render when user data is loading
   if (!user) {
     return <p>Loading user data...</p>;
   }
@@ -83,6 +84,11 @@ const Dashboard = () => {
           <ul className="product-list">
             {products.map((product) => (
               <li key={product._id} className="product-item">
+                <img
+                  src={product.productImage}
+                  alt={product.productName}
+                  className="product-image"
+                />
                 <h4>{product.productName}</h4>
                 <p>{product.productDescription}</p>
                 <p className="product-price">${product.productPrice.toFixed(2)}</p>
