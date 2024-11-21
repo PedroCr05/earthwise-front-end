@@ -103,12 +103,40 @@ const deleteProduct = async (id) => {
   }
 };
 
+//Create Review
+const createReview = async (productId, reviewData) => {
+  try {
+    const response = await axiosInstance.post(
+      `/${productId}/reviews`,
+      reviewData
+    );
+    return response.data;
+  } catch (error) {
+    handleError(error, "add review");
+  }
+};
+
+//Edit Review
+const editReview = async (productId, reviewId, reviewData) => {
+  try {
+    const response = await axiosInstance.put(
+      `/${productId}/reviews/${reviewId}`,
+      reviewData
+    );
+    return response.data;
+  } catch (error) {
+    handleError(error, "edit review");
+  }
+};
+
 export default {
   getProducts,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  createReview,
+  editReview,
 };
 
 // import axios from "axios";

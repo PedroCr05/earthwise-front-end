@@ -16,10 +16,12 @@ const ProductDescription = ({ addToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [reviews, setReviews] = useState([]); // State for product reviews
-  const [rating, setRating] = useState(0); // State for review rating
-  const [comment, setComment] = useState(""); // State for review comment
-
+  const [reviews, setReviews] = useState([]);
+  // const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [recommend, setRecommend] = useState("");
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -89,22 +91,31 @@ const ProductDescription = ({ addToCart }) => {
     navigate(`/edit-product/${id}`);
   };
 
-  const handleReviewSubmit = async (e) => {
+  const handleReviewSubmit = async (e, recommendation) => {
     e.preventDefault();
-    try {
-      const reviewData = {
-        rating,
-        comment,
-      };
+    const reviewData = {
+      text: comment,
+      recommend: recommendation,
+    };
 
-      await reviewService.addReview(productId, reviewData);
-      console.log("Review submitted successfully");
+    try {
+      if (isEditing && editingReviewId) {
+        // Edit existing review
+        console.log("productId", productId, editingReviewId, reviewData);
+        await productService.editReview(productId, editingReviewId, reviewData);
+        console.log("Review updated successfully");
+      } else {
+        // Add new review
+        await productService.createReview(productId, reviewData);
+        console.log("Review submitted successfully");
+      }
 
       // Refresh reviews
       const updatedProduct = await productService.getProductById(productId);
       setReviews(updatedProduct.reviews || []);
-      setRating(0);
       setComment("");
+      setIsEditing(false);
+      setEditingReviewId(null);
     } catch (error) {
       console.error("Error submitting review:", error.message);
     }
@@ -152,7 +163,18 @@ const ProductDescription = ({ addToCart }) => {
             </div>
           )}
 
-          <ReviewList reviews={reviews} productId={productId} />
+          <ReviewList
+            reviews={reviews}
+            productId={productId}
+            onSubmitReview={handleReviewSubmit}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            setEditingReviewId={setEditingReviewId}
+            setComment={setComment}
+            comment={comment}
+            recommend={recommend}
+            setRecommend={setRecommend}
+          />
         </div>
       </div>
     </div>
