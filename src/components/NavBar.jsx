@@ -6,11 +6,11 @@ const NavBar = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    authService.signout(); 
+    authService.signout();
     if (setUser) {
       setUser(null);
     }
-    navigate("/"); 
+    navigate("/");
   };
 
   return (
@@ -19,8 +19,7 @@ const NavBar = ({ user, setUser }) => {
         {/* Logo */}
         <div className="logo">
           <Link to="/">
-          <img src="/favicon_io/apple-touch-icon.png" alt="Site Logo" />
-
+            <img src="/favicon_io/apple-touch-icon.png" alt="Site Logo" />
           </Link>
         </div>
 
@@ -36,12 +35,6 @@ const NavBar = ({ user, setUser }) => {
               Products
             </Link>
           </li>
-
-          {/* 
-          Not sure if this unordered list is meant to be here? 
-          Going to comment it out for now. 
-          */}
-          {/* <ul></ul> */}
           <li className="link-to-pages">
             <Link to="/dashboard" className="center-me">
               Dashboard
@@ -52,14 +45,15 @@ const NavBar = ({ user, setUser }) => {
               Cart
             </Link>
           </li>
-          <li>
-            {user ? (
+          {user ? (
+            <li>
               <button className="nav-button" onClick={handleSignOut}>
                 Sign Out
               </button>
-            ) : (
-              <>
-
+            </li>
+          ) : (
+            <>
+              <li>
                 <Link to="/signin" className="nav-button">
                   Sign In
                 </Link>

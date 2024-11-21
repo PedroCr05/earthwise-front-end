@@ -15,12 +15,7 @@ const signup = async (body) => {
     const res = await axios.post(`${BASE_URL}/signup`, body);
     return res.data;
   } catch (error) {
-
-    console.error(
-      "Error during signup:",
-      error.response?.data || error.message
-    );
-    throw error;
+    handleError(error, "signup");
   }
 };
 
@@ -29,10 +24,9 @@ const signin = async (body) => {
   try {
     const res = await axios.post(`${BASE_URL}/signin`, body);
     if (res.data.token) {
-      
       localStorage.setItem("authToken", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-     
+
       if (!localStorage.getItem("authToken")) {
         throw new Error("Failed to save authentication token.");
       }
@@ -44,13 +38,7 @@ const signin = async (body) => {
     }
     return res.data;
   } catch (error) {
-
-    console.error(
-      "Error during signin:",
-      error.response?.data || error.message
-    );
-    throw error;
-
+    handleError(error, "signin");
   }
 };
 
@@ -70,8 +58,7 @@ const getUserById = async (userId) => {
 
   const isValidObjectId = (id) => /^[0-9a-fA-F]{24}$/.test(id);
 
-  // Log the userId to check if it's correct
-  console.log('User ID:', userId);
+  console.log("User ID:", userId);
 
   try {
     let res;
@@ -90,12 +77,7 @@ const getUserById = async (userId) => {
     }
     return res.data;
   } catch (error) {
-
-    console.error(
-      "Error fetching user by ID:",
-      error.response?.data || error.message
-    );
-    return null;
+    handleError(error, "getUserById");
   }
 };
 
@@ -134,4 +116,3 @@ const getUsernameAndUserId = () => {
 };
 
 export default { signup, signin, signout, getUserById, getCurrentUser, isAuthenticated, getUsernameAndUserId };
-

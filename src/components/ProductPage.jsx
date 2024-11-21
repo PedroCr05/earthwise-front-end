@@ -2,9 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import productService from "../services/productService";
 import shoppingCartService from "../services/shoppingCartService";
-
 import userService from "../services/userService";
-
+import reviewService from "../services/reviewService"; 
 import ReviewList from "./ReviewList";
 
 import "./ProductDescription.css";
@@ -17,21 +16,22 @@ const ProductDescription = ({ addToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [reviews, setReviews] = useState([]); 
-  const [rating, setRating] = useState(0); 
-  const [comment, setComment] = useState(""); 
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const productData = await productService.getProductById(productId);
         setProduct(productData);
-        setReviews(productData.reviews || []); 
+        setReviews(productData.reviews || []);
       } catch (err) {
         console.error("Error fetching product details:", err);
         setError("An error occurred while fetching the product.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchProduct();
@@ -40,7 +40,7 @@ const ProductDescription = ({ addToCart }) => {
   useEffect(() => {
     const checkAdminStatus = async () => {
       try {
-        const user = await userService.getCurrentUser(); 
+        const user = await userService.getCurrentUser();
         if (user && user.role === "admin") {
           setIsAdmin(true);
         }
@@ -61,7 +61,7 @@ const ProductDescription = ({ addToCart }) => {
   }
 
   const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
+    setQuantity(Number(event.target.value));
   };
 
   const handleAddToCart = async () => {
@@ -71,8 +71,7 @@ const ProductDescription = ({ addToCart }) => {
         productName: product.productName,
         productPrice: product.productPrice,
         productImage: product.productImage,
-        quantity: quantity,
-        review: product.review,
+        quantity,
       };
       await shoppingCartService.addItemToCart(item);
       addToCart(product, quantity);
@@ -81,42 +80,34 @@ const ProductDescription = ({ addToCart }) => {
     }
   };
 
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteProduct = async () => {
     try {
-      await productService.deleteProduct(id);
+      await productService.deleteProduct(product._id);
       navigate("/products");
     } catch (error) {
       console.error("Error deleting product:", error);
     }
   };
 
-  const handleEditProduct = (id) => {
-    navigate(`/edit-product/${id}`);
+  const handleEditProduct = () => {
+    navigate(`/edit-product/${product._id}`);
   };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-
     try {
+      const { username, userId } = userService.getUsernameAndUserId() || {};
       const reviewData = {
         rating,
         comment,
+        recommend: rating >= 4,
+        author: username ? `${username} (${userId})` : "Anonymous",
       };
 
-
-    const { username, userId } = userService.getUsernameAndUserId() || {};
-
-    const reviewData = {
-      recommend: rating >= 4, 
-      text: comment,
-      rating, 
-      author: username ? `${username} (${userId})` : "Anonymous", 
-    };
-
-    try {
       await reviewService.addReview(product._id, reviewData);
-      setComment(""); 
-      setRating(0); 
+      setComment("");
+      setRating(0);
+
       const updatedProduct = await productService.getProductById(product._id);
       setReviews(updatedProduct.reviews);
     } catch (err) {
@@ -130,19 +121,13 @@ const ProductDescription = ({ addToCart }) => {
         <div className="productImage">
           <img src={product.productImage} alt={product.productName} />
         </div>
-
         <div className="productInfo">
           <h1>{product.productName}</h1>
           <p className="productDescription">{product.productDescription}</p>
           <div className="productPrice">${product.productPrice}</div>
-
           <div className="quantityContainer">
             <label htmlFor="quantity">Qty: </label>
-            <select
-              id="quantity"
-              value={quantity}
-              onChange={handleQuantityChange}
-            >
+            <select id="quantity" value={quantity} onChange={handleQuantityChange}>
               {[...Array(10).keys()].map((num) => (
                 <option key={num + 1} value={num + 1}>
                   {num + 1}
@@ -150,28 +135,20 @@ const ProductDescription = ({ addToCart }) => {
               ))}
             </select>
           </div>
-
-          <div className="addToCartButton">
-            <button onClick={handleAddToCart}>Add to Cart</button>
-          </div>
-
+          <button className="addToCartButton" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
           {isAdmin && (
             <div className="adminButtons">
-              <button onClick={() => handleDeleteProduct(product._id)}>Delete Product</button>
-              <button onClick={() => handleEditProduct(product._id)}>Edit Product</button>
+              <button onClick={handleDeleteProduct}>Delete Product</button>
+              <button onClick={handleEditProduct}>Edit Product</button>
             </div>
           )}
-
-
-          <ReviewList reviews={reviews} productId={productId} />
-
         </div>
       </div>
-
       <div className="reviews">
         <h2>Reviews</h2>
         <ReviewList reviews={reviews} />
-
         <form onSubmit={handleReviewSubmit}>
           <label>Rating (1-5):</label>
           <input
@@ -179,13 +156,10 @@ const ProductDescription = ({ addToCart }) => {
             min="1"
             max="5"
             value={rating}
-            onChange={(e) => setRating(parseInt(e.target.value))}
+            onChange={(e) => setRating(Number(e.target.value))}
           />
           <label>Comment:</label>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
+          <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
           <button type="submit">Submit Review</button>
         </form>
       </div>
