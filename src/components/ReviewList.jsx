@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-
 import EachReview from "./EachReview";
 import "./ReviewList.css";
 
 const ReviewList = ({
   reviews,
-  productId,
   onSubmitReview,
   isEditing,
   setIsEditing,
@@ -17,8 +14,8 @@ const ReviewList = ({
 }) => {
   // const [comment, setComment] = useState("");
 
-  // // const [editingReviewId, setEditingReviewId] = useState(null);
-  // // const [isEditing, setIsEditing] = useState(false);
+  // const [editingReviewId, setEditingReviewId] = useState(null);
+  // const [isEditing, setIsEditing] = useState(false);
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();

@@ -15,18 +15,15 @@ import "./App.css";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
-  // Maybe add a site darkmode and lightmode?
-  // const [darkMode, setDarkMode] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check for token and username in localStorage
     const storedToken = localStorage.getItem("authToken");
     const storedUsername = localStorage.getItem("username");
 
     if (storedToken && storedUsername) {
-      setUser({ username: storedUsername }); // Set user state only if both are available
+      setUser({ username: storedUsername }); 
     }
   }, []);
 
@@ -47,8 +44,8 @@ const App = () => {
   const handleUserLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
-    setUser(null); // Reset user state to null on logout
-    navigate("/"); // Navigate to the landing page (or sign-in page)
+    setUser(null);
+    navigate("/"); 
   };
 
   return (

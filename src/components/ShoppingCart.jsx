@@ -1,3 +1,5 @@
+//----------------- TEST FOR SHIPPING -------------------------//
+
 import { useEffect, useState, useRef } from "react";
 import shoppingCartService from "../services/shoppingCartService";
 import "./NavBar.css";
@@ -7,9 +9,9 @@ const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [editedQuantity, setEditedQuantity] = useState(null); 
-  const [editingItemId, setEditingItemId] = useState(null); 
-  const [showModal, setShowModal] = useState(false); 
+  const [editedQuantity, setEditedQuantity] = useState(null);
+  const [editingItemId, setEditingItemId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const isMounted = useRef(false);
 
@@ -42,7 +44,7 @@ const ShoppingCart = () => {
   const handleEditQuantity = (itemId, currentQuantity) => {
     setEditingItemId(itemId);
     setEditedQuantity(currentQuantity);
-    setError(null); 
+    setError(null);
   };
 
   // Save Updated Quantity
@@ -61,7 +63,7 @@ const ShoppingCart = () => {
         quantity: editedQuantity,
       });
       setEditingItemId(null);
-      refreshCart(); 
+      refreshCart();
     } catch (err) {
       setError("Failed to update quantity.");
       console.error(err);
@@ -70,22 +72,24 @@ const ShoppingCart = () => {
 
   // Calculate Subtotal
   const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => {
-      return total + item.productPrice * item.quantity;
-    }, 0).toFixed(2);
+    return cartItems
+      .reduce((total, item) => {
+        return total + item.productPrice * item.quantity;
+      }, 0)
+      .toFixed(2);
   };
 
   // Handle "Buy Now" button click
   const handleBuyNow = () => {
-    setShowModal(true); 
+    setShowModal(true);
   };
 
   useEffect(() => {
     if (!isMounted.current) {
-      refreshCart(); // Fetch cart on mount
+      refreshCart();
       isMounted.current = true;
     }
-  }, [editedQuantity]); // Refresh cart when quantity is updated
+  }, [editedQuantity]);
 
   return (
     <div className="shoppingCartContainer">
@@ -147,7 +151,6 @@ const ShoppingCart = () => {
         )}
       </ul>
 
-      {/* Subtotal */}
       {cartItems.length > 0 && (
         <div className="cartSubtotal">
           <p className="subtotalLabel">Subtotal</p>
@@ -155,12 +158,10 @@ const ShoppingCart = () => {
         </div>
       )}
 
-      {/* Buy Now Button */}
       <button className="buyNowButton" onClick={handleBuyNow}>
         Buy Now
       </button>
 
-      {/* Modal for order completion */}
       {showModal && (
         <div className="modal">
           <div className="modalContent">
@@ -174,3 +175,4 @@ const ShoppingCart = () => {
 };
 
 export default ShoppingCart;
+
