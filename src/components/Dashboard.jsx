@@ -4,8 +4,8 @@ import axios from "axios";
 import userService from "../services/userService";
 import "./Dashboard.css";
 
-const Dashboard = () => {
-  const [user, setUser] = useState(null);
+const Dashboard = ({ user, setUser }) => {
+  // const [user, setUser] = useState(null);
   const [role, setRole] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ const Dashboard = () => {
     const fetchProducts = async () => {
       setLoading(true);
       const token = localStorage.getItem("authToken"); // Retrieve the token
-  
+
       try {
         const response = await axios.get("http://localhost:3000/products", {
           headers: {
@@ -36,7 +36,7 @@ const Dashboard = () => {
           },
         });
         console.log("API Response:", response.data);
-  
+
         // Access the 'products' array from the response object
         if (response.data && Array.isArray(response.data.products)) {
           setProducts(response.data.products); // Set products from the response
@@ -50,7 +50,7 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-  
+
     fetchProducts();
   }, []);
 
@@ -91,7 +91,9 @@ const Dashboard = () => {
                 />
                 <h4>{product.productName}</h4>
                 <p>{product.productDescription}</p>
-                <p className="product-price">${product.productPrice.toFixed(2)}</p>
+                <p className="product-price">
+                  ${product.productPrice.toFixed(2)}
+                </p>
               </li>
             ))}
           </ul>

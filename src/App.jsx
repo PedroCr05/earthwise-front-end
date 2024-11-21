@@ -18,14 +18,14 @@ const App = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("authToken");
-    const storedUsername = localStorage.getItem("username");
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem("authToken");
+  //   const storedUsername = localStorage.getItem("username");
 
-    if (storedToken && storedUsername) {
-      setUser({ username: storedUsername }); 
-    }
-  }, []);
+  //   if (storedToken && storedUsername) {
+  //     setUser({ username: storedUsername });
+  //   }
+  // }, []);
 
   const addToCart = (product, quantity) => {
     const existingProductIndex = cartItems.findIndex(
@@ -45,9 +45,9 @@ const App = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
     setUser(null);
-    navigate("/"); 
+    navigate("/");
   };
-
+  console.log("user", user);
   return (
     <>
       <NavBar user={user} setUser={setUser} onLogout={handleUserLogout} />
@@ -57,12 +57,12 @@ const App = () => {
         <Route path="/products" element={<ProductList />} />
         <Route
           path="/product/:productId"
-          element={<ProductDescription addToCart={addToCart} />}
+          element={<ProductDescription addToCart={addToCart} user={user} />}
         />
         <Route path="/cart" element={<ShoppingCart user={user} />} />
         <Route path="/signup" element={<SignupForm setUser={setUser} />} />
         <Route path="/signin" element={<SigninForm setUser={setUser} />} />
-        <Route path="/dashboard" element={<Dashboard user={user} />} />
+        <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />
         <Route path="/new-product" element={<NewProduct />} />
         <Route path="/edit-product/:id" element={<EditProduct />} />
       </Routes>

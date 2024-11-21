@@ -8,7 +8,7 @@ import ReviewList from "./ReviewList";
 
 import "./ProductDescription.css";
 
-const ProductDescription = ({ addToCart }) => {
+const ProductDescription = ({ addToCart, user }) => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -93,9 +93,11 @@ const ProductDescription = ({ addToCart }) => {
 
   const handleReviewSubmit = async (e, recommendation) => {
     e.preventDefault();
+    console.log("user", user);
     const reviewData = {
       text: comment,
       recommend: recommendation,
+      author: user._id,
     };
 
     try {
