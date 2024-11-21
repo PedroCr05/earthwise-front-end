@@ -182,3 +182,21 @@ body {
   font-weight: bold;
   color: white;
 }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Adjust spacing between avatar and username */
+}
+
+.user-avatar {
+  width: 32px; /* Set appropriate size for avatar */
+  height: 32px;
+  border-radius: 50%; /* Make the avatar circular */
+  object-fit: cover; /* Ensure the image fits well */
+  filter: brightness(0) invert(1); /* Turn the image white */
+}
+
+.center-me {
+  display: inline-block;
+}
