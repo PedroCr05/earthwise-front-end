@@ -1,67 +1,49 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import productService from "../services/productService";
+import { useEffect, useState } from "react";
 import "./EditProduct.css";
 
 const EditProduct = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState({
-    productName: "",
-    productDescription: "",
-    productPrice: "",
-    productImage: "",
-    productQuantity: "",
-    productSku: "",
-    manufacturerSku: "",
-    productCategory: "",
-  });
+  const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch product data to populate form
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const productData = await productService.getProductById(productId);
-        console.log("Fetched product data:", productData);  // Added log to check the fetched product data
-        if (productData) {
-          setProduct(productData);
-        } else {
-          setError("Product not found");
-        }
-      } catch (err) {
-        console.error("Error fetching product:", err);
-        setError("An error occurred while fetching the product.");
-      } finally {
-        setLoading(false); // Always set loading to false after fetching
+        setProduct(productData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        setError("Failed to load product. Please try again later.");
+        setLoading(false);
       }
     };
 
     fetchProduct();
   }, [productId]);
 
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({
-      ...product,
-      [name]: value,
-    });
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setProduct({ ...product, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
     try {
-      await productService.updateProduct(productId, product); // Update the product
-      navigate(`/product/${productId}`); // Navigate to the product page after updating
-    } catch (err) {
-      setError("An error occurred while updating the product.");
-      console.error("Error updating product:", err);
+      await productService.updateProduct(productId, product);
+      navigate("/products"); // Redirect to product list after update
+    } catch (error) {
+      console.error("Error updating product:", error);
+      setError("Failed to update product. Please try again later.");
     }
   };
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading-message">Loading...</div>;
   }
 
   if (error) {
@@ -70,97 +52,56 @@ const EditProduct = () => {
 
   return (
     <div className="edit-product-container">
-      <h3>Edit Product</h3>
-      <form onSubmit={handleSubmit} className="edit-product-form">
+      <h2>Edit Product</h2>
+      <form onSubmit={handleFormSubmit}>
         <div className="form-group">
           <label htmlFor="productName">Product Name</label>
           <input
-            onChange={handleFormChange}
-            value={product.productName}
-            name="productName"
-            id="productName"
             type="text"
+            id="productName"
+            name="productName"
+            value={product.productName}
+            onChange={handleInputChange}
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="productDescription">Product Description</label>
           <textarea
-            onChange={handleFormChange}
-            value={product.productDescription}
-            name="productDescription"
             id="productDescription"
+            name="productDescription"
+            value={product.productDescription}
+            onChange={handleInputChange}
             required
-          />
+          ></textarea>
         </div>
+
         <div className="form-group">
           <label htmlFor="productPrice">Product Price</label>
           <input
-            onChange={handleFormChange}
-            value={product.productPrice}
-            name="productPrice"
-            id="productPrice"
             type="number"
+            id="productPrice"
+            name="productPrice"
+            value={product.productPrice}
+            onChange={handleInputChange}
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="productImage">Product Image URL</label>
           <input
-            onChange={handleFormChange}
-            value={product.productImage}
-            name="productImage"
+            type="text"
             id="productImage"
-            type="text"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="productQuantity">Product Quantity</label>
-          <input
-            onChange={handleFormChange}
-            value={product.productQuantity}
-            name="productQuantity"
-            id="productQuantity"
-            type="number"
+            name="productImage"
+            value={product.productImage}
+            onChange={handleInputChange}
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="productSku">Product SKU</label>
-          <input
-            onChange={handleFormChange}
-            value={product.productSku}
-            name="productSku"
-            id="productSku"
-            type="text"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="manufacturerSku">Manufacturer SKU</label>
-          <input
-            onChange={handleFormChange}
-            value={product.manufacturerSku}
-            name="manufacturerSku"
-            id="manufacturerSku"
-            type="text"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="productCategory">Product Category</label>
-          <input
-            onChange={handleFormChange}
-            value={product.productCategory}
-            name="productCategory"
-            id="productCategory"
-            type="text"
-            required
-          />
-        </div>
-        <div className="form-actions">
-          <button type="submit">Update Product</button>
-        </div>
+
+        <button type="submit" className="save-button">Save</button>
       </form>
     </div>
   );
