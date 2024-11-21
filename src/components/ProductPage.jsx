@@ -17,6 +17,7 @@ const ProductDescription = ({ addToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+
   const [reviews, setReviews] = useState([]); 
   const [rating, setRating] = useState(0); 
   const [comment, setComment] = useState(""); 
@@ -94,33 +95,35 @@ const ProductDescription = ({ addToCart }) => {
     navigate(`/edit-product/${id}`);
   };
 
-  const handleReviewSubmit = async (e) => {
+  const handleReviewSubmit = async (e, recommendation) => {
     e.preventDefault();
 
-    try {
-      const reviewData = {
-        rating,
-        comment,
-      };
-
-
-    const { username, userId } = userService.getUsernameAndUserId() || {};
-
     const reviewData = {
-      recommend: rating >= 4, 
       text: comment,
-      rating, 
-      author: username ? `${username} (${userId})` : "Anonymous", 
+      recommend: recommendation,
     };
 
     try {
-      await reviewService.addReview(product._id, reviewData);
-      setComment(""); 
-      setRating(0); 
-      const updatedProduct = await productService.getProductById(product._id);
-      setReviews(updatedProduct.reviews);
-    } catch (err) {
-      console.error("Error submitting review:", err);
+      if (isEditing && editingReviewId) {
+        // Edit existing review
+        console.log("productId", productId, editingReviewId, reviewData);
+        await productService.editReview(productId, editingReviewId, reviewData);
+        console.log("Review updated successfully");
+      } else {
+        // Add new review
+        await productService.createReview(productId, reviewData);
+        console.log("Review submitted successfully");
+      }
+
+      // Refresh reviews
+      const updatedProduct = await productService.getProductById(productId);
+      setReviews(updatedProduct.reviews || []);
+      setComment("");
+      setIsEditing(false);
+      setEditingReviewId(null);
+    } catch (error) {
+      console.error("Error submitting review:", error.message);
+
     }
   };
 
@@ -163,7 +166,18 @@ const ProductDescription = ({ addToCart }) => {
           )}
 
 
-          <ReviewList reviews={reviews} productId={productId} />
+          <ReviewList
+            reviews={reviews}
+            productId={productId}
+            onSubmitReview={handleReviewSubmit}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            setEditingReviewId={setEditingReviewId}
+            setComment={setComment}
+            comment={comment}
+            recommend={recommend}
+            setRecommend={setRecommend}
+          />
 
         </div>
       </div>
