@@ -7,11 +7,11 @@ const NavBar = ({ user, setUser }) => {
 
   const handleSignOut = () => {
     authService.signout();
-    if (setUser) {
-      setUser(null);
-    }
+    setUser && setUser(null);
     navigate("/");
   };
+
+  console.log("User in NavBar:", user);
 
   return (
     <nav className="navbar">
@@ -37,6 +37,16 @@ const NavBar = ({ user, setUser }) => {
                   Products
                 </Link>
               </li>
+
+              {/* Show Create New Product Link only for admin users */}
+              {user.role === "admin" && (
+                <li className="link-to-pages">
+                  <Link to="/new-product" className="center-me">
+                    Create New Product
+                  </Link>
+                </li>
+              )}
+
               <li className="link-to-pages">
                 <Link to={`/cart`} className="center-me">
                   Cart
@@ -48,7 +58,7 @@ const NavBar = ({ user, setUser }) => {
                   alt="User Avatar"
                   className="user-avatar"
                 />
-                <span className="center-me">{user.name}</span>
+                <span className="center-me">{user.name || "User"}</span>
               </li>
               <li>
                 <button className="nav-button" onClick={handleSignOut}>

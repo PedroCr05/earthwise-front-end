@@ -29,7 +29,11 @@ const NewProduct = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      await axios.post("http://localhost:3000/products", productDetails); // Make sure the URL is correct
+      const token = localStorage.getItem("authToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      await axios.post("http://localhost:3000/products", productDetails, { headers }); // Pass headers with the token
       setMessage({ success: "Product created successfully!", error: "" });
       setProductDetails({
         productName: "",

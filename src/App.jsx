@@ -8,9 +8,10 @@ import SignupForm from "./components/SignupForm";
 import SigninForm from "./components/SigninForm";
 import LandingPage from "./components/LandingPage";
 import Dashboard from "./components/Dashboard";
-import NewProduct from "./components/NewProduct";
+import NewProduct from "./components/NewProduct"; // Import NewProduct component
 import EditProduct from "./components/EditProduct";
 import GuestProducts from "./components/GuestProducts";
+import authService from "./services/userService";
 import "./App.css";
 
 const App = () => {
@@ -18,14 +19,13 @@ const App = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem("authToken");
-  //   const storedUsername = localStorage.getItem("username");
-
-  //   if (storedToken && storedUsername) {
-  //     setUser({ username: storedUsername });
-  //   }
-  // }, []);
+  // Load user info from localStorage on app load
+  useEffect(() => {
+    const storedUser = authService.getCurrentUser();
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
 
   const addToCart = (product, quantity) => {
     const existingProductIndex = cartItems.findIndex(
@@ -42,12 +42,13 @@ const App = () => {
   };
 
   const handleUserLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("username");
+    authService.signout(); // Clear auth-related data
     setUser(null);
     navigate("/");
   };
-  console.log("user", user);
+
+  console.log("User in App:", user);
+
   return (
     <>
       <NavBar user={user} setUser={setUser} onLogout={handleUserLogout} />
@@ -62,10 +63,14 @@ const App = () => {
         <Route path="/cart" element={<ShoppingCart user={user} />} />
         <Route path="/signup" element={<SignupForm setUser={setUser} />} />
         <Route path="/signin" element={<SigninForm setUser={setUser} />} />
-        <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard user={user} setUser={setUser} />}
+        />
+        {/* New Product Route */}
         <Route path="/new-product" element={<NewProduct />} />
         <Route path="/edit-product/:productId" element={<EditProduct />} />
-        </Routes>
+      </Routes>
     </>
   );
 };
