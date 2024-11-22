@@ -15,7 +15,6 @@ const ShoppingCart = () => {
 
   const isMounted = useRef(false);
 
-  // Refresh Cart
   const refreshCart = async () => {
     setLoading(true);
     try {
@@ -29,7 +28,6 @@ const ShoppingCart = () => {
     }
   };
 
-  // Handle Item Deletion
   const handleRemoveItem = async (itemId) => {
     try {
       await shoppingCartService.removeItemFromCart(itemId);

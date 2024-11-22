@@ -11,7 +11,12 @@ const ReviewList = ({
   comment,
   recommend,
   setRecommend,
+  user,
 }) => {
+  // const [comment, setComment] = useState("");
+
+  // const [editingReviewId, setEditingReviewId] = useState(null);
+  // const [isEditing, setIsEditing] = useState(false);
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -21,18 +26,22 @@ const ReviewList = ({
   };
 
   const handleEdit = (review) => {
-    setComment(review.text); // Populate the text field with the review's text
-    setRecommend(review.recommend); // Populate the recommend field
-    setEditingReviewId(review._id); // Store the review's ID
-    setIsEditing(true); // Switch to editing mode
+    setComment(review.comment);
+    setRecommend(review.recommend);
+    setEditingReviewId(review._id);
+    setIsEditing(true);
   };
-  
+
   const handleCancelEdit = () => {
-    setComment(""); // Clear the fields
-    setRecommend(""); // Clear the fields
-    setEditingReviewId(null); // Reset the review ID
-    setIsEditing(false); // Switch back to add mode
+    setComment("");
+    setRecommend("");
+    setEditingReviewId(null);
+    setIsEditing(false);
   };
+
+  if (!reviews || reviews.length === 0) {
+    return <p>No reviews available for this product.</p>;
+  }
 
   return (
     <div className="review-list">
@@ -76,7 +85,9 @@ const ReviewList = ({
           {reviews.map((review, index) => (
             <li key={review._id || index} className="review-item">
               <EachReview review={review} />
-              <button onClick={() => handleEdit(review)}>Edit</button>
+              {user && review.author === user._id && (
+                <button onClick={() => handleEdit(review)}>Edit</button>
+              )}
             </li>
           ))}
         </ul>

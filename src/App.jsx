@@ -8,7 +8,7 @@ import SignupForm from "./components/SignupForm";
 import SigninForm from "./components/SigninForm";
 import LandingPage from "./components/LandingPage";
 import Dashboard from "./components/Dashboard";
-import NewProduct from "./components/NewProduct"; // Import NewProduct component
+import NewProduct from "./components/NewProduct";
 import EditProduct from "./components/EditProduct";
 import GuestProducts from "./components/GuestProducts";
 import authService from "./services/userService";
