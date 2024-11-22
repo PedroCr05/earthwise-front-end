@@ -236,21 +236,3 @@ const SignupForm = () => {
 export default SignupForm;
 
 
-{
-  /* Role selection */
-}
-{
-  /* <div className="form-group">
-          <label htmlFor="role">Role</label>
-          <select
-            name="role"
-            id="role"
-            value={userCredentials.role}
-            onChange={handleFormChange}
-          >
-            <option value="customer">Customer</option>
-            <option value="admin">Admin</option>
-            <option value="manager">Manager</option>
-          </select>
-        </div> */
-}

@@ -8,7 +8,7 @@
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
-  background-color: #f7f7f7; /* Lighter background for better contrast */
+  background-color: #f7f7f7;
   color: #333;
 }
 
@@ -34,7 +34,7 @@ h1 {
 .loginPrompt {
   text-align: center;
   font-size: 1.2rem;
-  color: #d9534f; /* Warning red */
+  color: #d9534f; 
   background-color: #fdecea;
   padding: 12px;
   border-radius: 5px;
@@ -82,10 +82,10 @@ h1 {
 }
 
 .cartItem img {
-  width: 80px;  /* Adjusted size for better layout */
+  width: 80px;  
   height: 80px;
-  object-fit: cover;  /* Ensures aspect ratio is maintained */
-  border-radius: 8px;  /* Optional: rounded corners for images */
+  object-fit: cover;  
+  border-radius: 8px; 
   margin-right: 20px;
 }
 
@@ -257,8 +257,8 @@ h1 {
 
 .emptyCartButton {
   display: inline-block;
-  padding: 15px 30px;  /* Make the button larger */
-  background-color: #28a745;  /* Green background */
+  padding: 15px 30px;  
+  background-color: #28a745;  
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
@@ -270,10 +270,9 @@ h1 {
 }
 
 .emptyCartButton:hover {
-  background-color: #218838;  /* Darker green on hover */
+  background-color: #218838;  
 }
 
-/* Ensure button is centered */
 .emptyCartButtonWrapper {
   display: flex;
   justify-content: center;
