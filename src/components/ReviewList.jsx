@@ -12,10 +12,6 @@ const ReviewList = ({
   recommend,
   setRecommend,
 }) => {
-  // const [comment, setComment] = useState("");
-
-  // const [editingReviewId, setEditingReviewId] = useState(null);
-  // const [isEditing, setIsEditing] = useState(false);
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -25,22 +21,18 @@ const ReviewList = ({
   };
 
   const handleEdit = (review) => {
-    setComment(review.comment);
-    setRecommend(review.recommend);
-    setEditingReviewId(review._id);
-    setIsEditing(true);
+    setComment(review.text); // Populate the text field with the review's text
+    setRecommend(review.recommend); // Populate the recommend field
+    setEditingReviewId(review._id); // Store the review's ID
+    setIsEditing(true); // Switch to editing mode
   };
-
+  
   const handleCancelEdit = () => {
-    setComment("");
-    setRecommend("");
-    setEditingReviewId(null);
-    setIsEditing(false);
+    setComment(""); // Clear the fields
+    setRecommend(""); // Clear the fields
+    setEditingReviewId(null); // Reset the review ID
+    setIsEditing(false); // Switch back to add mode
   };
-
-  if (!reviews || reviews.length === 0) {
-    return <p>No reviews available for this product.</p>;
-  }
 
   return (
     <div className="review-list">

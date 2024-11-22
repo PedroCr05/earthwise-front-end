@@ -71,7 +71,7 @@ const Dashboard = ({ user }) => {
       )}
 
       <section className="product-section">
-        <h3>Available Products</h3>
+        <h1>Available Products</h1>
         {loading ? (
           <p>Loading products...</p>
         ) : error ? (

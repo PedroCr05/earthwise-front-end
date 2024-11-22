@@ -37,6 +37,16 @@ const NavBar = ({ user, setUser }) => {
                   Products
                 </Link>
               </li>
+
+              {/* Show Create New Product Link only for admin users */}
+              {user.role === "admin" && (
+                <li className="link-to-pages">
+                  <Link to="/new-product" className="center-me">
+                    Create New Product
+                  </Link>
+                </li>
+              )}
+
               <li className="link-to-pages">
                 <Link to={`/cart`} className="center-me">
                   Cart

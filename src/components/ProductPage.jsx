@@ -19,7 +19,7 @@ const ProductDescription = ({ addToCart, user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingReviewId, setEditingReviewId] = useState(null);
   const [recommend, setRecommend] = useState("");
-  const [comment, setComment] = useState(""); // Added missing `comment` state
+  const [comment, setComment] = useState(""); 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
@@ -101,66 +101,70 @@ const ProductDescription = ({ addToCart, user }) => {
       recommend: recommendation,
       author: user._id,
     };
-
+  
     try {
       if (isEditing && editingReviewId) {
         await productService.editReview(productId, editingReviewId, reviewData);
       } else {
         await productService.createReview(productId, reviewData);
       }
-
+  
       const updatedProduct = await productService.getProductById(productId);
       setReviews(updatedProduct.reviews || []);
-      setComment("");
+      setComment(""); // Clear the comment after submission
       setIsEditing(false);
-      setEditingReviewId(null);
+      setEditingReviewId(null); // Reset the editing state
     } catch (error) {
       console.error("Error submitting review:", error.message);
     }
   };
 
   return (
-    <div className="productDescriptionContainer">
-      <div className="productDetails">
-        <div className="productImage">
-          <img src={product.productImage} alt={product.productName} />
-        </div>
-
-        <div className="productInfo">
-          <h1>{product.productName}</h1>
-          <p className="productDescription">{product.productDescription}</p>
-          <div className="productPrice">${product.productPrice}</div>
-
-          <div className="quantityContainer">
-            <label htmlFor="quantity">Qty: </label>
-            <select
-              id="quantity"
-              value={quantity}
-              onChange={handleQuantityChange}
-            >
-              {[...Array(10).keys()].map((num) => (
-                <option key={num + 1} value={num + 1}>
-                  {num + 1}
-                </option>
-              ))}
-            </select>
+    <div className="pageContainer">
+      <div className="contentContainer">
+        <div className="productDetails">
+          <div className="productImage">
+            <img src={product.productImage} alt={product.productName} />
           </div>
 
-          <button className="buyNowButton" onClick={handleAddToCart}>
-            Add to Cart
-          </button>
+          <div className="productInfo">
+            <h1>{product.productName}</h1>
+            <p className="productDescription">{product.productDescription}</p>
+            <div className="productPrice">${product.productPrice}</div>
 
-          {isAdmin && (
-            <div className="admin-actions">
-              <button onClick={() => handleEditProduct(product._id)}>
-                Edit
-              </button>
-              <button onClick={() => handleDeleteProduct(product._id)}>
-                Delete
-              </button>
+            <div className="quantityContainer">
+              <label htmlFor="quantity">Qty: </label>
+              <select
+                id="quantity"
+                value={quantity}
+                onChange={handleQuantityChange}
+              >
+                {[...Array(10).keys()].map((num) => (
+                  <option key={num + 1} value={num + 1}>
+                    {num + 1}
+                  </option>
+                ))}
+              </select>
             </div>
-          )}
 
+            <button className="buyNowButton" onClick={handleAddToCart}>
+              Add to Cart
+            </button>
+
+            {isAdmin && (
+              <div className="admin-actions">
+                <button onClick={() => handleEditProduct(product._id)}>
+                  Edit
+                </button>
+                <button onClick={() => handleDeleteProduct(product._id)}>
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="reviewsSection">
           <ReviewList
             reviews={reviews}
             productId={productId}
@@ -189,6 +193,13 @@ const ProductDescription = ({ addToCart, user }) => {
 };
 
 export default ProductDescription;
+
+
+
+
+
+
+
 
 
 

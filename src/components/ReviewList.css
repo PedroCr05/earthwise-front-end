@@ -1,19 +1,224 @@
+/* Styling for the review listing */
 .customer-review-listing {
-
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive layout */
   gap: 1.5rem;
   list-style: none;
   padding: 2rem;
   border-radius: 1rem;
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.06); /* Subtle shadow */
-  max-width: 1200px;
+  background: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); /* Soft shadow */
   margin: 2rem auto;
   overflow: hidden;
   border: none;
 }
 
-.review-list {
+/* Review item style */
+.review-item {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.review-item button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.review-item button:hover {
+  background-color: #0056b3;
+}
+
+/* Review form styling */
+.review-form {
+  margin-top: 2rem;
+  background: #f0f4f8;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.review-form h3 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.review-form label {
+  display: block;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.review-form select,
+.review-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.review-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.review-form button {
+  background-color: #28a745;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.review-form button:hover {
+  background-color: #218838;
+}
+
+.review-form button[type="button"] {
+  background-color: #dc3545;
+}
+
+.review-form button[type="button"]:hover {
+  background-color: #c82333;
+}
+
+.review-form button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Heading styling */
+.review-list h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Product Grid Container */
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive layout */
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06); /* Soft shadow */
+  margin: 2rem auto;
+  overflow: hidden;
+  border: none;
+  justify-content: center; /* Center grid items horizontally */
+  max-width: 1200px; /* Optional: max width to limit the container's width */
+}
+
+/* Individual Product Card Styling */
+.product-card {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Image Styling */
+.product-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Product Details */
+.product-details {
   padding: 1rem;
+}
+
+.product-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.product-description {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.product-price {
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+.button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid grey;
+  background-color: #e67e22;
+  color: white;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+}
+
+.button:hover {
+  background-color: #d35400;
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .product-container {
+    grid-template-columns: 1fr; /* Stack products in one column on smaller screens */
+  }
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .customer-review-listing {
+    grid-template-columns: 1fr; /* Stack reviews in one column on smaller screens */
+  }
+
+  .review-form {
+    margin-top: 1rem;
+  }
 }
