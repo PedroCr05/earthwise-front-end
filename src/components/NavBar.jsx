@@ -7,11 +7,11 @@ const NavBar = ({ user, setUser }) => {
 
   const handleSignOut = () => {
     authService.signout();
-    if (setUser) {
-      setUser(null);
-    }
+    setUser && setUser(null);
     navigate("/");
   };
+
+  console.log("User in NavBar:", user);
 
   return (
     <nav className="navbar">
@@ -48,7 +48,7 @@ const NavBar = ({ user, setUser }) => {
                   alt="User Avatar"
                   className="user-avatar"
                 />
-                <span className="center-me">{user.name}</span>
+                <span className="center-me">{user.name || "User"}</span>
               </li>
               <li>
                 <button className="nav-button" onClick={handleSignOut}>
