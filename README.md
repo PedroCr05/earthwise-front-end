@@ -1,5 +1,5 @@
 <div style="width:25%; margin: auto;">
-  <img src="./assets/Site-Logo/favicon.ico" width="100px" alt="earthwise-packaging-logo">
+  <img src="./favicon_io/favicon.ico" width="100px" alt="earthwise-packaging-logo">
 </div>
 
 # EARTHWISE PACKAGING
@@ -16,25 +16,31 @@ Welcome to **Earthwise Packaging**, where we’re on a mission to help the food 
 ### [📚](#table-of-contents) | The books is a clickable emoji, so you can redirect back to this list!
 
 - **_[Tech Stack](#tech-stack)_**
+- **_[Back End Repository](#back-end-repository)_**
 - **_[How to Download & Run](#how-to-download--run-the-project)_**
-- **_[Features](#features)_**
-  - **_[End-Point Charts](#endpoints-chart)_**
-  - **_[Portals](#portals)_**
-  - **_[Models](#models)_**
-  - **_[Product Ideas](#items-listed-for-now-idea)_**
+- **_[Site Features](#site-features)_**
+  - **_[Sign In, Up, & Out Feature](#sign-in-up--out-feature)_**
+  - **_[Product Based](#product-based)_**
+  - **_[Cart Area](#cart-area)_**
+  - **_[User's Dashboard/Information](#users-dashboardinformation)_**
+  - **_[Reviews Section](#reviews-section)_**
 - **_[Developers](#who-created-this-project)_**
 - **_[Back Logs](#project-backlog)_**
-- **_[Stretch Goals](#stretch-goals)_**
 
 ## Tech Stack
 
 ##### [📚](#table-of-contents)
 
-| Section       | Technology Used           |
-| ------------- | ------------------------- |
-| **Database:** | MongoDB                   |
-| **Backend:**  | Node.js, Express, _&_ JWT |
-| **Frontend:** | Axios, CSS, _&_ React     |
+| Section       | Technology Used       |
+| ------------- | --------------------- |
+| **Frontend:** | Axios, CSS, _&_ React |
+
+## Back End Repository
+
+##### [📚](#table-of-contents)
+
+- [Back end](https://github.com/jharreldesign/Earthwise-Packaging-Server/tree/PedroCr05)
+- [Deployment](https://earthwisepackaging.netlify.app)
 
 ## How to Download & Run the Project
 
@@ -58,107 +64,92 @@ Welcome to **Earthwise Packaging**, where we’re on a mission to help the food 
 2. Visit `http://localhost:3000` in your browser to see the project.
 3. It is advised to run **both** the **_Back End_** _&_ **_Front End_** Simiulatiously.
 
-## Features
+## Site Features
+
+### Sign In, Up, & Out Feature
 
 ##### [📚](#table-of-contents)
 
-### Endpoints Chart
+#### Sign In
 
-##### [📚](#table-of-contents)
+<img src="./assets/images/signin.png" alt="sign-in-feature-image" width="350px"/>
 
-#### Endpoint for Users/Customers
+#### Sign Up
 
-| HTTP Method | URI                    | Description                                        | Is it an _MVP_? |
-| ----------- | ---------------------- | -------------------------------------------------- | --------------- |
-| `GET:`      | `/products`            | **Get** all `Products`                             | _Yes_           |
-| `GET(ID):`  | `/products/:productId` | **Get** a single `Product`                         | _Yes_           |
-| `GET:`      | `/cart`                | **Get** all `Products` inside the cart             | **_No_**        |
-| `PUT:`      | `/cart/:cardId`        | **Update** a single `Product` amount from the cart | **_No_**        |
-| `DELETE:`   | `/cart/:cartId`        | **Delete** a single `Product` from the cart        | **_No_**        |
+<img src="./assets/images/signup.png" alt="sign-up-feature-image" width="350px"/>
 
-#### Endpoints for Admins
+##### Sign Out
 
-| HTTP Method | URI                    | Description                                        | Is it an _MVP_? |
-| ----------- | ---------------------- | -------------------------------------------------- | --------------- |
-| `POST:`     | `/products`            | **Create** a `Product` listing into the data base  | _Yes_           |
-| `PUT:`      | `/products/:productId` | **Update** a single `Product` from the data base   | _Yes_           |
-| `DELETE:`   | `/products/:productId` | **Delete** a single `Product` from the data base   | _Yes_           |
-| `PUT:`      | `/cart/:cardId`        | **Update** a single `Product` amount from the cart | **_No_**        |
-| `DELETE:`   | `/cart/:cartId`        | **Delete** a single `Product` from the cart        | **_No_**        |
-
-### Portals
-
-##### [📚](#table-of-contents)
-
-- Customer Only Portal/Access -> MVP
-- Admin Only Portal/Access -> Post MVP
-
-### Models
-
-##### [📚](#table-of-contents)
+<img src="./assets/images/signout.png" alt="sign-out-button-feature-image" width="175"/>
 
 ---
 
-#### 1. User/Customer Model
+### Product Based
 
-| Tag Name               | Syntax     | _Required_? |
-| ---------------------- | ---------- | ----------- |
-| `Email:`               | **String** | _Yes_       |
-| `Full-Address:`        | **String** | _Yes_       |
-| `Name:`                | **String** | _Yes_       |
-| `Password:`            | **String** | _Yes_       |
-| `Payment-Information:` | **String** | _Yes_       |
-| `Company-Name:`        | **String** | **_No_**    |
-| `Username:`            | **String** | **_No_**    |
-| `Phone-Number:`        | **Number** | _Yes_       |
+##### [📚](#table-of-contents)
 
-#### 2. Inventory/Product Options
+#### Product Details Page
 
-| Tag Name                        | Syntax                  | _Required_? |
-| ------------------------------- | ----------------------- | ----------- |
-| `Product-Description:`          | **String**              | _Yes_       |
-| `Product-Image:`                | **String**              | _Yes_       |
-| `Product-Name:`                 | **String**              | _Yes_       |
-| `Product-Quick-Facts:`          | **String**              | **_No_**    |
-| `Reviews:`                      | **String (_Embedded_)** | **_No_**    |
-| `In-Stock-Status:`              | **Number**              | _Yes_       |
-| `Product-Price:`                | **Number**              | _Yes_       |
-| `Product-SKU/Manufacturer-SKU:` | **Number**              | _Yes_       |
-| `Quantity:`                     | **Number**              | _Yes_       |
+<img src="./assets/images/product-details.png" alt="product-details-page-image" width="350"/>
+
+#### View Products Page
+
+<img src="./assets/images/product-view.png" alt="view-products-page-image" width="350"/>
 
 ---
 
-### Items listed for now (_idea_)
+### Cart Area
 
 ##### [📚](#table-of-contents)
 
-| Category                  | Products                                                                |
-| ------------------------- | ----------------------------------------------------------------------- |
-| `Food & Eating Supplies:` | Plates, Straws, Utensils, & Cups (hot, cold, & multiple sizes)          |
-| `Kitchen Essentials:`     | Catering boxes/items, Liner sheets, To-go containers, & Carry-out boxes |
+#### View Cart Page
 
-## Who created this Project?
+<img src="./assets/images/view-cart.png" alt="view-cart-page-image" width="350"/>
+
+#### Update Product Quantity
+
+<img src="./assets/images/update-quatiy-of-products.png" alt="update-product-quantity-image" width="350"/>
+
+#### Products Purchased
+
+<img src="./assets/images/alert-menu-of-purchased-items.png" alt="purchased-items-pop-up-image" width="350"/>
+
+---
+
+### User's Dashboard/Information
 
 ##### [📚](#table-of-contents)
 
-| Developers | _What Part?_                 |
-| ---------- | ---------------------------- |
-| `Jason:`   | **Back** _&_ **Front** - End |
-| `Jessica:` | **Back** _&_ **Front** - End |
-| `Pedro:`   | **Front** - End              |
+#### Account details
+
+<img src="./assets/images/user-dashboard-with-products.png" alt="dashboard-information-page-image" width="350"/>
+
+---
+
+### Reviews Section
+
+##### [📚](#table-of-contents)
+
+#### Creating a Review
+
+<img src="./assets/images/add-reviews.png" alt="adding-a-new-review-form-image" width="350"/>
+
+#### Updating a Review
+
+<img src="./assets/images/edit-reviews.png" alt="editing-a-review-form-image" width="350"/>
+
+## Who worked on the front-end?
+
+##### [📚](#table-of-contents)
+
+| Developers | _What Part?_ |
+| ---------- | ------------ |
+| `Jason:`   | [x]          |
+| `Jessica:` | [x]          |
+| `Pedro:`   | [x]          |
 
 ## Project Backlog
 
 ##### [📚](#table-of-contents)
 
 ### [▶](https://github.com/users/jharreldesign/projects/1) Kanban/Back Logs
-
-## Stretch Goals
-
-##### [📚](#table-of-contents)
-
-| By who?     | _On what exactly_?                               | _Where_?                   |
-| ----------- | ------------------------------------------------ | -------------------------- |
-| `Pedro:`    | A prefetch product when a user hovers a product  | **Front** End              |
-| `Jason:`    | Shipping options with shipping progress.         | **Back** End               |
-| `Everyone:` | Being able to implement a search/filter feature. | **Back** _&_ **Front** End |
